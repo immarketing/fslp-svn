@@ -117,6 +117,7 @@ public class ABK2 implements EntryPoint {
 		tree.addItem(treeItem_1);
 		
 		ScrollPanel scrollPanel = new ScrollPanel();
+		scrollPanel.setStyleName(".gwt-Tree-new");
 		dockLayoutPanel.add(scrollPanel);
 		scrollPanel.setSize("100%", "100%");
 		
