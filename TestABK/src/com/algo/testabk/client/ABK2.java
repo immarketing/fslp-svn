@@ -18,6 +18,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
 
 public class ABK2 implements EntryPoint {
 	private void doStartLearning(){
@@ -93,6 +95,7 @@ public class ABK2 implements EntryPoint {
 		TreeItem trtmNewItem = new TreeItem("Глава 1");
 		trtmNewItem.setText("\u0413\u043B\u0430\u0432\u0430 1 ");
 		treeItem_3.addItem(trtmNewItem);
+		trtmNewItem.setState(true);
 		
 		TreeItem trtmNewItem_1 = new TreeItem("Глава 2");
 		trtmNewItem_1.setText("\u0413\u043B\u0430\u0432\u0430 2 ");
@@ -117,14 +120,21 @@ public class ABK2 implements EntryPoint {
 		tree.addItem(treeItem_1);
 		
 		ScrollPanel scrollPanel = new ScrollPanel();
-		scrollPanel.setStyleName(".gwt-Tree-new");
+		scrollPanel.setStyleName("gwt-Tree-new");
 		dockLayoutPanel.add(scrollPanel);
 		scrollPanel.setSize("100%", "100%");
 		
-		HTML htmlNewHtml = new HTML("New HTML", true);
+		final HTML htmlNewHtml = new HTML("New HTML", true);
 		htmlNewHtml.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		scrollPanel.setWidget(htmlNewHtml);
 		htmlNewHtml.setSize("100%", "100%");
 		
+		tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
+			public void onSelection(SelectionEvent<TreeItem> event) {
+				String s = event.getSelectedItem().getHTML();
+				htmlNewHtml.setHTML(s);
+				//doStartLearning();
+			}
+		});
 	}
 }
