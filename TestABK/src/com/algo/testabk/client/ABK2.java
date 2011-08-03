@@ -1,25 +1,28 @@
 package com.algo.testabk.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ABK2 implements EntryPoint {
 	private void doStartLearning(){
@@ -64,7 +67,7 @@ public class ABK2 implements EntryPoint {
 		dockLayoutPanel.setSize("100%", "100%");
 		
 		MenuBar menuBar = new MenuBar(false);
-		dockLayoutPanel.addNorth(menuBar, 13.1);
+		dockLayoutPanel.addNorth(menuBar, 5.0);
 		
 		MenuItem mntmNewItem = new MenuItem("\u041D\u0430\u0447\u0430\u0442\u044C \u043E\u0431\u0443\u0447\u0435\u043D\u0438\u0435 ", false, new Command() {
 			public void execute() {
@@ -79,9 +82,42 @@ public class ABK2 implements EntryPoint {
 			}
 		});
 		menuBar.addItem(mntmNewItem_1);
+		
+		final SimplePanel pnlBottom = new SimplePanel();
+		
+		MenuItem menuItem = new MenuItem("\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u0430\u043D\u0435\u043B\u044C", false, new Command() {
+			public void execute() {
+				pnlBottom.setVisible(true);
+				
+			}
+		});
+		menuBar.addItem(menuItem);
+		
+		MenuItem menuItem_1 = new MenuItem("\u0421\u043A\u0440\u044B\u0442\u044C \u043F\u0430\u043D\u0435\u043B\u044C", false, new Command() {
+			public void execute() {
+				pnlBottom.setVisible(false);
+			}
+		});
+		menuBar.addItem(menuItem_1);
+		
+		dockLayoutPanel.addSouth(pnlBottom, 20);
+		
+		FlowPanel flowPanel = new FlowPanel();
+		pnlBottom.setWidget(flowPanel);
+		flowPanel.setSize("100%", "100%");
+		
+		Button btnNewKurs = new Button("\u041D\u043E\u0432\u044B\u0439 \u043A\u0443\u0440\u0441");
+		flowPanel.add(btnNewKurs);
+		
+		Button btnNewButton_1 = new Button("New button");
+		flowPanel.add(btnNewButton_1);
+		
+		InlineLabel nlnlblNewInlinelabel = new InlineLabel("New InlineLabel");
+		flowPanel.add(nlnlblNewInlinelabel);
 
 		Tree tree = new Tree();
-		dockLayoutPanel.addWest(tree, 15.9);
+		dockLayoutPanel.addWest(tree, 15);
+		//tree.setSize("", "");
 		
 		TreeItem treeItem = new TreeItem("\u0423\u0447\u0435\u0431\u043D\u044B\u0439 \u043A\u0443\u0440\u0441 1");
 		tree.addItem(treeItem);
@@ -122,7 +158,7 @@ public class ABK2 implements EntryPoint {
 		ScrollPanel scrollPanel = new ScrollPanel();
 		scrollPanel.setStyleName("gwt-Tree-new");
 		dockLayoutPanel.add(scrollPanel);
-		scrollPanel.setSize("100%", "100%");
+		//scrollPanel.setSize("", "");
 		
 		final HTML htmlNewHtml = new HTML("New HTML", true);
 		htmlNewHtml.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);

@@ -1,0 +1,14 @@
+<module>
+	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
+	<inherits name="com.google.gwt.place.Place"/>
+	<inherits name="com.google.gwt.activity.Activity"/>
+	<inherits name="com.gwtext.GwtExt"/>
+	<entry-point class="com.algo.client.client.Index"/>
+	<replace-with class="com.algo.client.client.ClientFactoryImpl">
+		<when-type-is class="com.algo.client.client.ClientFactory"/>
+	</replace-with>
+	<stylesheet src="js/ext/resources/css/ext-all.css"/>
+	<script src="js/ext/adapter/ext/ext-base.js"/>
+	<script src="js/ext/ext-all.js"/>
+</module>
