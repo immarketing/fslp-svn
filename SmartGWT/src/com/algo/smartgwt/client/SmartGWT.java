@@ -13,7 +13,14 @@ import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
+import com.smartgwt.client.data.DSRequest;
+import com.smartgwt.client.data.DSResponse;
+import com.smartgwt.client.data.OperationBinding;
+import com.smartgwt.client.data.RestDataSource;
+import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.types.Alignment;
+import com.smartgwt.client.types.DSOperationType;
+import com.smartgwt.client.types.DSProtocol;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.util.SC;
 
@@ -217,6 +224,44 @@ class CountryData {
         };  
     }  
 }
+
+class ARestDataSource extends RestDataSource {
+	
+	public ARestDataSource(){
+		super();
+		DataSourceTextField countryCode = new DataSourceTextField("countryCode", "Code");  
+        OperationBinding fetch = new OperationBinding();  
+        fetch.setOperationType(DSOperationType.FETCH);  
+        fetch.setDataProtocol(DSProtocol.POSTMESSAGE);  
+        OperationBinding add = new OperationBinding();  
+        add.setOperationType(DSOperationType.ADD);  
+        add.setDataProtocol(DSProtocol.POSTMESSAGE);  
+        OperationBinding update = new OperationBinding();  
+        update.setOperationType(DSOperationType.UPDATE);  
+        update.setDataProtocol(DSProtocol.POSTMESSAGE);  
+        OperationBinding remove = new OperationBinding();  
+        remove.setOperationType(DSOperationType.REMOVE);  
+        remove.setDataProtocol(DSProtocol.POSTMESSAGE);  
+        this.setOperationBindings(fetch, add, update, remove);  
+        DataSourceTextField countryName = new DataSourceTextField("countryName", "Country");  
+        DataSourceTextField capital = new DataSourceTextField("capital", "Capital");  
+        this.setFields(countryCode, countryName, capital);  
+        this.setFetchDataURL("/smartgwt/courseadd");  
+        this.setAddDataURL("/smartgwt/courseadd");  
+        this.setUpdateDataURL("/smartgwt/courseadd");  
+        this.setRemoveDataURL("/smartgwt/courseadd");  
+  		
+	}
+	
+    @Override  
+    protected Object transformRequest(DSRequest dsRequest) {  
+        return super.transformRequest(dsRequest);  
+    }  
+    @Override  
+    protected void transformResponse(DSResponse response, DSRequest request, Object data) {  
+        super.transformResponse(response, request, data);  
+    }  
+};  
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -245,7 +290,9 @@ public class SmartGWT implements EntryPoint {
         
         grid.setFields(new ListGridField[] {codeField, nameField});  
                 
-        grid.setData(CountryData.getRecords());
+        //grid.setData(CountryData.getRecords());
+        grid.setDataSource(new ARestDataSource());  
+        grid.setEmptyCellValue("--");  
         
         layout.addMember(grid);
         

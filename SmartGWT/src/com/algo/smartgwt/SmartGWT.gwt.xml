@@ -7,6 +7,9 @@
   <inherits name="com.smartgwt.SmartGwt"/>
 
   <inherits name='com.google.gwt.user.theme.clean.Clean'/>
+  
+  <inherits name="com.google.gwt.logging.Logging"/>
+
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->
