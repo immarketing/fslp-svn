@@ -3,26 +3,27 @@ package com.algo.smartgwt.client;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.smartgwt.client.widgets.Canvas;
-import com.smartgwt.client.widgets.IButton;
-import com.smartgwt.client.widgets.Label;
-import com.smartgwt.client.widgets.events.ClickHandler;
-import com.smartgwt.client.widgets.events.ClickEvent;
-import com.smartgwt.client.widgets.grid.ListGrid;
-import com.smartgwt.client.widgets.grid.ListGridField;
-import com.smartgwt.client.widgets.grid.ListGridRecord;
-import com.smartgwt.client.widgets.layout.HLayout;
-import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
 import com.smartgwt.client.data.OperationBinding;
 import com.smartgwt.client.data.RestDataSource;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.types.Alignment;
+import com.smartgwt.client.types.DSDataFormat;
 import com.smartgwt.client.types.DSOperationType;
 import com.smartgwt.client.types.DSProtocol;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.util.SC;
+import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.IButton;
+import com.smartgwt.client.widgets.Label;
+import com.smartgwt.client.widgets.events.ClickEvent;
+import com.smartgwt.client.widgets.events.ClickHandler;
+import com.smartgwt.client.widgets.grid.ListGrid;
+import com.smartgwt.client.widgets.grid.ListGridField;
+import com.smartgwt.client.widgets.grid.ListGridRecord;
+import com.smartgwt.client.widgets.layout.HLayout;
+import com.smartgwt.client.widgets.layout.VLayout;
 
 
 class CountryRecord extends ListGridRecord {  
@@ -229,7 +230,7 @@ class ARestDataSource extends RestDataSource {
 	
 	public ARestDataSource(){
 		super();
-		DataSourceTextField countryCode = new DataSourceTextField("countryCode", "Code");  
+		
         OperationBinding fetch = new OperationBinding();  
         fetch.setOperationType(DSOperationType.FETCH);  
         fetch.setDataProtocol(DSProtocol.POSTMESSAGE);  
@@ -243,13 +244,21 @@ class ARestDataSource extends RestDataSource {
         remove.setOperationType(DSOperationType.REMOVE);  
         remove.setDataProtocol(DSProtocol.POSTMESSAGE);  
         this.setOperationBindings(fetch, add, update, remove);  
+
+        DataSourceTextField countryCode = new DataSourceTextField("countryCode", "Code");
         DataSourceTextField countryName = new DataSourceTextField("countryName", "Country");  
-        DataSourceTextField capital = new DataSourceTextField("capital", "Capital");  
-        this.setFields(countryCode, countryName, capital);  
+        DataSourceTextField capital = new DataSourceTextField("capital", "Capital");
+        
+        this.setFields(countryCode, countryName, capital);
+        
         this.setFetchDataURL("/smartgwt/courseadd");  
-        this.setAddDataURL("/smartgwt/courseadd");  
-        this.setUpdateDataURL("/smartgwt/courseadd");  
-        this.setRemoveDataURL("/smartgwt/courseadd");  
+        this.setAddDataURL("/smartgwt/courseadd_");  
+        this.setUpdateDataURL("/smartgwt/courseadd_");  
+        this.setRemoveDataURL("/smartgwt/courseadd_");  
+        
+        setDataFormat(DSDataFormat.JSON);
+        
+        //JSON.getDefault().
   		
 	}
 	
@@ -285,13 +294,22 @@ public class SmartGWT implements EntryPoint {
         grid.setHeight("200");
         grid.setAlign(Alignment.CENTER);
         
-        ListGridField codeField = new ListGridField("code", "Code", 50);  
-        ListGridField nameField = new ListGridField("name", "Name", 50);
+        //ListGridField codeField = new ListGridField("code", "Code", 50);  
+        //ListGridField nameField = new ListGridField("name", "Name", 50);
         
-        grid.setFields(new ListGridField[] {codeField, nameField});  
+        //grid.setFields(new ListGridField[] {codeField, nameField});  
                 
         //grid.setData(CountryData.getRecords());
-        grid.setDataSource(new ARestDataSource());  
+        grid.setDataSource(new ARestDataSource());
+        
+        ListGridField codeField = new ListGridField("countryCode");  
+        ListGridField nameField = new ListGridField("countryName");  
+        ListGridField capitalField = new ListGridField("capital");  
+        ListGridField continentField = new ListGridField("continent", "Continent");  
+        grid.setFields(codeField, nameField, capitalField, continentField);  
+        grid.setSortField(0);  
+        grid.setDataPageSize(50);  
+        grid.setAutoFetchData(true);          
         grid.setEmptyCellValue("--");  
         
         layout.addMember(grid);
@@ -355,8 +373,8 @@ public class SmartGWT implements EntryPoint {
 		//button.draw();
 		
 		layout.addMember(button);
-		layout.addMember(new IButton("Hello World 1"));
-		layout.addMember(new IButton("Hello World 2"));
+		//layout.addMember(new IButton("Hello World 1"));
+		//layout.addMember(new IButton("Hello World 2"));
 		layout.addMember(getNewGrid());
 		layout.addMember(getNewGrid());
 		layout.setShowEdges(true);  
