@@ -1,8 +1,10 @@
 package com.algo.smartgwt.server.db;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
@@ -72,13 +74,17 @@ public class DBF {
 		}
 	}
 	
-	public static <T> void testDeJSON (String js, T tObject){
+	public static <T> T testDeJSON (String js, T tObject){
 		Gson gson = new Gson();
-		DataRequestT<T> o=gson.fromJson(js, DataRequestT<T>.class);
+		//int DataRequestT;
+		Type typeOfT = new TypeToken<DataRequestT<T>>(){}.getType();
+		DataRequestT<T> o=gson.fromJson(js, typeOfT);
 		
 		if (o != null) {
-			
-		}
+			return o.data;
+		} 
+		
+		return null;
 	}
 	
 	public static Objectify getObjectify(){
