@@ -10,7 +10,7 @@ public class Country {
 	String countryName = "";
 	String countryCode = "";
 	
-	private Country() {
+	public Country() {
 	}
 
 	public Country(String continent, String countryName,String countryCode ) {
