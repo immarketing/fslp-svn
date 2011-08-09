@@ -26,6 +26,17 @@
     <url-pattern>/smartgwt/courseadd</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>courseNew</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.course.New</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>courseNew</servlet-name>
+    <url-pattern>/smartgwt/coursenew</url-pattern>
+  </servlet-mapping>
+
+
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>SmartGWT.html</welcome-file>
