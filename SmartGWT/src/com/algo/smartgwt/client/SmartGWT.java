@@ -252,11 +252,13 @@ class ARestDataSource extends RestDataSource {
         this.setFields(countryCode, countryName, capital);
         
         this.setFetchDataURL("/smartgwt/courseadd");  
-        this.setAddDataURL("/smartgwt/courseadd_");  
+        this.setAddDataURL("/smartgwt/coursenew");  
         this.setUpdateDataURL("/smartgwt/courseadd_");  
         this.setRemoveDataURL("/smartgwt/courseadd_");  
         
         setDataFormat(DSDataFormat.JSON);
+        setPrettyPrintJSON(false);
+        //set
         
         //JSON.getDefault().
   		
@@ -376,7 +378,7 @@ public class SmartGWT implements EntryPoint {
 		//layout.addMember(new IButton("Hello World 1"));
 		//layout.addMember(new IButton("Hello World 2"));
 		layout.addMember(getNewGrid());
-		layout.addMember(getNewGrid());
+		//layout.addMember(getNewGrid());
 		layout.setShowEdges(true);  
 		//layout.setMembersMargin(5);  
 		layout.setLayoutMargin(10);  

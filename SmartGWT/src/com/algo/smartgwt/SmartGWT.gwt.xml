@@ -8,7 +8,9 @@
 
   <inherits name='com.google.gwt.user.theme.clean.Clean'/>
   
-  <inherits name="com.google.gwt.logging.Logging"/>
+  <inherits name="com.googlecode.objectify.Objectify" />
+
+  <!-- inherits name="com.google.gwt.logging.Logging"/ -->
 
   <!-- Other module inherits                                      -->
 
