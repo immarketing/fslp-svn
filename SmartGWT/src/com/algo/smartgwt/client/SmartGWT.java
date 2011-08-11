@@ -357,6 +357,17 @@ public class SmartGWT implements EntryPoint {
 			}
 		});
 		
+        IButton btnRefresh = new IButton("Обновить");
+        hLayout.addMember(btnRefresh);
+        
+        btnRefresh.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				grid.fetchData();
+				//grid.getDataSource().
+				//grid.rem
+			}
+		});
+
         layout.addMember(hLayout);
 
         return layout;
@@ -384,7 +395,7 @@ public class SmartGWT implements EntryPoint {
 		//layout.addMember(new IButton("Hello World 1"));
 		//layout.addMember(new IButton("Hello World 2"));
 		layout.addMember(getNewGrid());
-		//layout.addMember(getNewGrid());
+		layout.addMember(getNewGrid());
 		layout.setShowEdges(true);  
 		//layout.setMembersMargin(5);  
 		layout.setLayoutMargin(10);  
