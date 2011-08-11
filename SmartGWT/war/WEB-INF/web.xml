@@ -37,6 +37,43 @@
   </servlet-mapping>
 
 
+  <servlet>
+    <servlet-name>courseFetch</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.course.CourseFetch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>courseFetch</servlet-name>
+    <url-pattern>/smartgwt/course/fetch</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>courseAdd</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.course.CourseAdd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>courseAdd</servlet-name>
+    <url-pattern>/smartgwt/course/add</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>courseUpdate</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.course.CourseUpdate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>courseUpdate</servlet-name>
+    <url-pattern>/smartgwt/course/update</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>courseDelete</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.course.CourseDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>courseDelete</servlet-name>
+    <url-pattern>/smartgwt/course/remove</url-pattern>
+  </servlet-mapping>
+
+
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>SmartGWT.html</welcome-file>
