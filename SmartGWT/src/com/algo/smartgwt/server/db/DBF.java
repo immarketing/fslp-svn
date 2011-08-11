@@ -2,6 +2,7 @@ package com.algo.smartgwt.server.db;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -12,20 +13,16 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
 class Reply {
-	@SuppressWarnings("unused")
 	public int status = 0;
-	@SuppressWarnings({ "unused" })
+	@SuppressWarnings({ })
 	public int startRow = 0;
-	@SuppressWarnings({ "unused" })
+	@SuppressWarnings({ })
 	public int endRow = 1;
-	@SuppressWarnings("unused")
 	public int totalRows = 1;
-	@SuppressWarnings("unused")
 	public Object data[] = { null };
 };
 
 class AReply {
-	@SuppressWarnings("unused")
 	public Reply response = new Reply();
 }
 
@@ -57,6 +54,28 @@ class DataRequestT<T> {
 	}
 }
 
+class DataRequestCourse {
+	String dataSource;
+	String operationType;
+	String componentId;
+	Course oldValues;
+	Course data;
+	public DataRequestCourse(){
+		oldValues=null;
+		data=null;
+	}
+}
+
+class DataRequestCourses {
+	String dataSource;
+	String operationType;
+	String componentId;
+	String oldValues;
+	Course data[];
+	public DataRequestCourses(){
+		data = new Course[0];
+	}
+}
 /*
  * { "dataSource":"isc_ARestDataSource_0", "operationType":"add",
  * "componentId":"isc_ListGrid_0", "data":{ "countryCode":"555",
@@ -72,6 +91,7 @@ public class DBF {
 		}
 	}
 
+	@Deprecated
 	static class IdInstanceCreator<T> implements InstanceCreator<DataRequestT> {
 		public DataRequestT createInstance(Type type) {
 			/*
@@ -84,6 +104,27 @@ public class DBF {
 		}
 	}
 
+	public static Course[] deJSONOldNewCourse(String js) {
+		Course res[] = new Course[2];
+		Gson gson = new Gson();
+		DataRequestCourse c = gson.fromJson(js,DataRequestCourse.class);
+		if (c.data != null) {
+			res[0] = c.oldValues;
+			res[1] = c.data;
+		}
+		return res;		
+	}
+	public static List<Course> deJSONCourse(String js) {
+		List<Course> res = new ArrayList<Course>();
+		Gson gson = new Gson();
+		DataRequestCourse c = gson.fromJson(js,DataRequestCourse.class);
+		if (c.data != null) {
+			res.add(c.data);
+		}
+		return res;		
+	}
+	
+	@Deprecated	
 	public static <T> T testDeJSON(String js, T tObject) {
 		Gson gson = new Gson();
 		gson = new GsonBuilder().registerTypeAdapter(DataRequestT.class, new IdInstanceCreator<T>()).create();
@@ -120,15 +161,14 @@ public class DBF {
 		// final Object intRepl = reply;
 
 		AReply ar = new AReply();
-
 		ar.response.data[0] = reply;
-
 		return ar;
 	}
 
 	static {
 		ObjectifyService.register(Country.class);
 		ObjectifyService.register(Car.class);
+		ObjectifyService.register(Course.class);
 	}
 
 }

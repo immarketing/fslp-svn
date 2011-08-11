@@ -291,7 +291,10 @@ public class SmartGWT implements EntryPoint {
         layout.setAlign(Alignment.CENTER);
         layout.addMember(label);
         
-        final ListGrid grid = new ListGrid();  
+        final ListGrid grid = LGFactory.getCourseListGrid();
+        grid.setDataSource(DSFactory.getCoursesDataSet());
+        
+        /*
         grid.setWidth100();  
         grid.setHeight("200");
         grid.setAlign(Alignment.CENTER);
@@ -306,13 +309,17 @@ public class SmartGWT implements EntryPoint {
         
         ListGridField codeField = new ListGridField("countryCode");  
         ListGridField nameField = new ListGridField("countryName");  
-        ListGridField capitalField = new ListGridField("capital");  
-        ListGridField continentField = new ListGridField("continent", "Continent");  
-        grid.setFields(codeField, nameField, capitalField, continentField);  
+        //ListGridField capitalField = new ListGridField("capital");  
+        //ListGridField continentField = new ListGridField("continent", "Continent");
+        
+        grid.setFields(codeField, nameField );  
         grid.setSortField(0);  
         grid.setDataPageSize(50);  
         grid.setAutoFetchData(true);          
-        grid.setEmptyCellValue("--");  
+        grid.setEmptyCellValue("--");
+        */
+        
+        
         
         layout.addMember(grid);
         
@@ -337,7 +344,6 @@ public class SmartGWT implements EntryPoint {
         btnUpdate.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				grid.startEditing();
-				
 			}
 		});
         
@@ -346,8 +352,8 @@ public class SmartGWT implements EntryPoint {
         
         btnDelete.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				grid.removeSelectedData();
 				//grid.rem
-				
 			}
 		});
 		

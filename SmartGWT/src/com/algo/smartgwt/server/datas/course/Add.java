@@ -19,6 +19,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Query;
 
+@Deprecated
 public class Add extends HttpServlet {
 
 	/**
