@@ -362,7 +362,8 @@ public class SmartGWT implements EntryPoint {
         
         btnRefresh.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				grid.fetchData();
+				//grid.fetchData();
+				grid.invalidateCache();
 				//grid.getDataSource().
 				//grid.rem
 			}

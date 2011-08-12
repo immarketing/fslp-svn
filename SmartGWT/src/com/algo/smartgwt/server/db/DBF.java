@@ -1,6 +1,5 @@
 package com.algo.smartgwt.server.db;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -169,6 +168,7 @@ public class DBF {
 		ObjectifyService.register(Country.class);
 		ObjectifyService.register(Car.class);
 		ObjectifyService.register(Course.class);
+		ObjectifyService.register(Chapter.class);
 	}
 
 }
