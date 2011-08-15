@@ -90,18 +90,14 @@ public class DBF {
 		}
 	}
 
+	/*
 	@Deprecated
 	static class IdInstanceCreator<T> implements InstanceCreator<DataRequestT> {
 		public DataRequestT createInstance(Type type) {
-			/*
-			Type[] typeParameters = ((ParameterizedType) type)
-					.getActualTypeArguments();
-			Type idType = typeParameters[0]; // Id has only one parameterized
-												// type T
-			*/
 			return new DataRequestT<T>();
 		}
 	}
+	*/
 
 	public static Course[] deJSONOldNewCourse(String js) {
 		Course res[] = new Course[2];
@@ -126,7 +122,7 @@ public class DBF {
 	@Deprecated	
 	public static <T> T testDeJSON(String js, T tObject) {
 		Gson gson = new Gson();
-		gson = new GsonBuilder().registerTypeAdapter(DataRequestT.class, new IdInstanceCreator<T>()).create();
+		//gson = new GsonBuilder().registerTypeAdapter(DataRequestT.class, new IdInstanceCreator<T>()).create();
 		// int DataRequestT;
 		Type typeOfT = new TypeToken<DataRequestT>() {
 		}.getType();
@@ -165,8 +161,8 @@ public class DBF {
 	}
 
 	static {
-		ObjectifyService.register(Country.class);
-		ObjectifyService.register(Car.class);
+		//ObjectifyService.register(Country.class);
+		//ObjectifyService.register(Car.class);
 		ObjectifyService.register(Course.class);
 		ObjectifyService.register(Chapter.class);
 	}

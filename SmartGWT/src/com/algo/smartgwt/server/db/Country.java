@@ -2,6 +2,7 @@ package com.algo.smartgwt.server.db;
 
 import javax.persistence.Id;
 
+@Deprecated
 public class Country {
 	@Id
 	Long id;

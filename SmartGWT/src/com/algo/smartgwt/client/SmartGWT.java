@@ -12,9 +12,12 @@ import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.DSDataFormat;
 import com.smartgwt.client.types.DSOperationType;
 import com.smartgwt.client.types.DSProtocol;
+import com.smartgwt.client.types.DialogButtons;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.util.SC;
+import com.smartgwt.client.widgets.Button;
 import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.Dialog;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -22,10 +25,12 @@ import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
+import com.smartgwt.client.widgets.grid.events.SelectionUpdatedEvent;
+import com.smartgwt.client.widgets.grid.events.SelectionUpdatedHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
-
+/*
 class CountryRecord extends ListGridRecord {  
 	  
     public CountryRecord() {  
@@ -272,108 +277,13 @@ class ARestDataSource extends RestDataSource {
     protected void transformResponse(DSResponse response, DSRequest request, Object data) {  
         super.transformResponse(response, request, data);  
     }  
-};  
+};
+*/  
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
+
 public class SmartGWT implements EntryPoint {
-	private Canvas getNewGrid(){
-		VLayout layout = new VLayout();
-		Label label = new Label();
-		label.setHeight(30);  
-        label.setPadding(10);  
-        label.setAlign(Alignment.CENTER);  
-        label.setValign(VerticalAlignment.CENTER);  
-        label.setWrap(false);  
-        label.setShowEdges(true);  
-        label.setContents("<i>Approved</i> for release");
-        
-        layout.setAlign(Alignment.CENTER);
-        layout.addMember(label);
-        
-        final ListGrid grid = LGFactory.getCourseListGrid();
-        grid.setDataSource(DSFactory.getCoursesDataSet());
-        
-        /*
-        grid.setWidth100();  
-        grid.setHeight("200");
-        grid.setAlign(Alignment.CENTER);
-        
-        //ListGridField codeField = new ListGridField("code", "Code", 50);  
-        //ListGridField nameField = new ListGridField("name", "Name", 50);
-        
-        //grid.setFields(new ListGridField[] {codeField, nameField});  
-                
-        //grid.setData(CountryData.getRecords());
-        grid.setDataSource(new ARestDataSource());
-        
-        ListGridField codeField = new ListGridField("countryCode");  
-        ListGridField nameField = new ListGridField("countryName");  
-        //ListGridField capitalField = new ListGridField("capital");  
-        //ListGridField continentField = new ListGridField("continent", "Continent");
-        
-        grid.setFields(codeField, nameField );  
-        grid.setSortField(0);  
-        grid.setDataPageSize(50);  
-        grid.setAutoFetchData(true);          
-        grid.setEmptyCellValue("--");
-        */
-        
-        
-        
-        layout.addMember(grid);
-        
-        
-        HLayout hLayout = new HLayout();
-        hLayout.setAlign(Alignment.CENTER); 
-        hLayout.setWidth100();
-        hLayout.setMembersMargin(10);
-        hLayout.setLayoutMargin(10);
-
-        IButton btnNew = new IButton("New");
-        hLayout.addMember(btnNew);
-        btnNew.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				grid.startEditingNew();				
-			}
-		});
-        
-        final IButton btnUpdate = new IButton("Update");
-        hLayout.addMember(btnUpdate);
-        
-        btnUpdate.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				grid.startEditing();
-			}
-		});
-        
-        IButton btnDelete = new IButton("Detele");
-        hLayout.addMember(btnDelete);
-        
-        btnDelete.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				grid.removeSelectedData();
-				//grid.rem
-			}
-		});
-		
-        IButton btnRefresh = new IButton("Обновить");
-        hLayout.addMember(btnRefresh);
-        
-        btnRefresh.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				//grid.fetchData();
-				grid.invalidateCache();
-				//grid.getDataSource().
-				//grid.rem
-			}
-		});
-
-        layout.addMember(hLayout);
-
-        return layout;
-		
-	}
 	/**
 	 * This is the entry point method.
 	 */
@@ -395,8 +305,8 @@ public class SmartGWT implements EntryPoint {
 		layout.addMember(button);
 		//layout.addMember(new IButton("Hello World 1"));
 		//layout.addMember(new IButton("Hello World 2"));
-		layout.addMember(getNewGrid());
-		layout.addMember(getNewGrid());
+		layout.addMember(Context.getCourseCanvas());
+		//layout.addMember(getNewGrid());
 		layout.setShowEdges(true);  
 		//layout.setMembersMargin(5);  
 		layout.setLayoutMargin(10);  

@@ -43,6 +43,7 @@ public class DSFactory {
         
         ret.setDataFormat(DSDataFormat.JSON);
         ret.setPrettyPrintJSON(false);
+        ret.setAttribute("aaaa", Boolean.TRUE, true);
 		
 		return ret;		
 	}

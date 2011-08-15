@@ -3,6 +3,7 @@ package com.algo.smartgwt.server.db;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+@Deprecated
 public class Car {
 	@Id
 	Long id;
