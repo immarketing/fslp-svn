@@ -1,5 +1,9 @@
 package com.algo.smartgwt.client;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.OperationBinding;
 import com.smartgwt.client.data.RestDataSource;
 import com.smartgwt.client.data.fields.DataSourceIntegerField;
@@ -42,7 +46,19 @@ public class DSFactory {
         ret.setRemoveDataURL("/smartgwt/course/remove");
         
         ret.setDataFormat(DSDataFormat.JSON);
+        
         ret.setPrettyPrintJSON(false);
+        
+        DSRequest dsr = new DSRequest();
+        
+        Map m = new HashMap();
+        m.put("aaa", "bbb");
+        
+        dsr.setParams(m);
+        ret.setRequestProperties(dsr);
+        
+        ret.setSendMetaData(Boolean.TRUE);
+        ret.setSendExtraFields(Boolean.TRUE);
         ret.setAttribute("aaaa", Boolean.TRUE, true);
 		
 		return ret;		
