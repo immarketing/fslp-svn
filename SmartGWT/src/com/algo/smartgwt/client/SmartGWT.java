@@ -33,7 +33,8 @@ public class SmartGWT implements EntryPoint {
 		layout.addMember(button);
 		//layout.addMember(new IButton("Hello World 1"));
 		//layout.addMember(new IButton("Hello World 2"));
-		layout.addMember(Context.getCourseCanvas());
+		layout.addMember(Context.get().getCourseCanvas());
+		layout.addMember(Context.get().getChaptersCanvas());
 		//layout.addMember(getNewGrid());
 		layout.setShowEdges(true);  
 		//layout.setMembersMargin(5);  

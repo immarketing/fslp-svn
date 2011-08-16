@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.algo.smartgwt.LnrGlobals;
+import com.algo.smartgwt.server.db.Chapter;
 import com.algo.smartgwt.server.db.Course;
 import com.algo.smartgwt.server.db.DBF;
 import com.google.gson.Gson;
@@ -30,21 +32,18 @@ public class ChapterFetch extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// super.doGet(req, resp);
 		doHandleRequest(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// super.doPost(req, resp);
 		doHandleRequest(req, resp);
 	}
 	
 	private Logger log = Logger.getLogger(ChapterFetch.class.getName()); 
 
+	/*
 	private List<Course> getCoursesList(HttpServletRequest req,
 			HttpServletResponse resp){
 		Objectify ofy = DBF.getObjectify();
@@ -62,6 +61,7 @@ public class ChapterFetch extends HttpServlet {
 		String ret = gson.toJson(DBF.prepareJSONReply(lc ) ); 
 		return ret;
 	}
+	*/
 	
 	private void doHandleRequest(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
@@ -69,10 +69,23 @@ public class ChapterFetch extends HttpServlet {
 		
 		log.log(Level.WARNING, req.toString());
 		
-		String courses = getCourses(req,resp); 
+		String courseID = req.getParameter(LnrGlobals.CURRENT_COURCE_ID_PARAM_NAME); 
+		log.log(Level.WARNING, courseID + " == " + courseID);
+		
+		try {
+			Course crs = DBF.getObjectify().get(Course.class,new Long(courseID));
+			List<Chapter> chptrs = crs.getChapters();
+			log.log(Level.WARNING, ""+crs);
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		
 		//resp.getWriter().println(gson.toJson(new AReply () ));
 		//resp.getWriter().println(gson.toJson(DBF.prepareJSONReply(new Country("North America","United States","US")) ));
-		resp.getWriter().println(courses);
+		
+		//resp.getWriter().println(courses);
 				
 	}
 }

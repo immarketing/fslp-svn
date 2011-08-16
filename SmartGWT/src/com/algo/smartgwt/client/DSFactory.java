@@ -51,7 +51,7 @@ public class DSFactory {
         
         DSRequest dsr = new DSRequest();
         
-        Map m = new HashMap();
+        Map<String,String> m = new HashMap<String,String>();
         m.put("aaa", "bbb");
         
         dsr.setParams(m);
@@ -64,4 +64,50 @@ public class DSFactory {
 		return ret;		
 	}
 
+	public static RestDataSource getChaptersDataSet(){
+		RestDataSource ret = new RestDataSource();
+		
+        OperationBinding fetch = new OperationBinding();  
+        fetch.setOperationType(DSOperationType.FETCH);  
+        fetch.setDataProtocol(DSProtocol.POSTMESSAGE);
+        
+        OperationBinding add = new OperationBinding();  
+        add.setOperationType(DSOperationType.ADD);  
+        add.setDataProtocol(DSProtocol.POSTMESSAGE);
+        
+        OperationBinding update = new OperationBinding();  
+        update.setOperationType(DSOperationType.UPDATE);  
+        update.setDataProtocol(DSProtocol.POSTMESSAGE);
+        
+        OperationBinding remove = new OperationBinding();  
+        remove.setOperationType(DSOperationType.REMOVE);  
+        remove.setDataProtocol(DSProtocol.POSTMESSAGE);
+        
+        ret.setOperationBindings(fetch, add, update, remove);
+        
+        DataSourceIntegerField chapterID = new DataSourceIntegerField("id", "ID");
+        chapterID.setPrimaryKey(Boolean.TRUE);
+        DataSourceTextField chapterName = new DataSourceTextField("chapterName", "Chapter");  
+        
+        ret.setFields(chapterID, chapterName);
+        
+        ret.setFetchDataURL("/smartgwt/chapter/fetch");  
+        ret.setAddDataURL("/smartgwt/chapter/add");  
+        ret.setUpdateDataURL("/smartgwt/chapter/update");  
+        ret.setRemoveDataURL("/smartgwt/chapter/remove");
+        
+        ret.setDataFormat(DSDataFormat.JSON);
+        
+        ret.setPrettyPrintJSON(false);
+        
+        DSRequest dsr = new DSRequest();
+        dsr.setParams(Context.get().getChapterRequestParams());
+        ret.setRequestProperties(dsr);
+        
+        ret.setSendMetaData(Boolean.TRUE);
+        ret.setSendExtraFields(Boolean.TRUE);
+        //ret.setAttribute("aaaa", Boolean.TRUE, true);
+		
+		return ret;		
+	}
 }

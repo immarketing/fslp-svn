@@ -1,7 +1,10 @@
 package com.algo.smartgwt.server.db;
 
+import java.util.List;
+
 import javax.persistence.Id;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 
 public class Course {
@@ -37,6 +40,11 @@ public class Course {
 	public void doUpdate(Objectify ofy, Course newVals){
 		setCourseName(newVals.getCourseName());
 		ofy.put(this);
+	}
+	
+	public List<Chapter> getChapters(){
+		Objectify ofy = DBF.getObjectify();
+		return ofy.query(Chapter.class).filter("courseKey", new Key<Course>(Course.class, getId())).list();
 	}
 
 }
