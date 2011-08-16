@@ -74,6 +74,42 @@
   </servlet-mapping>
 
 
+  <servlet>
+    <servlet-name>chapterFetch</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.chapter.ChapterFetch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>chapterFetch</servlet-name>
+    <url-pattern>/smartgwt/chapter/fetch</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>chapterAdd</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.chapter.ChapterAdd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>chapterAdd</servlet-name>
+    <url-pattern>/smartgwt/chapter/add</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>chapterUpdate</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.chapter.ChapterUpdate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>chapterUpdate</servlet-name>
+    <url-pattern>/smartgwt/chapter/update</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>chapterDelete</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.chapter.ChapterDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>chapterDelete</servlet-name>
+    <url-pattern>/smartgwt/chapter/remove</url-pattern>
+  </servlet-mapping>
+
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>SmartGWT.html</welcome-file>
