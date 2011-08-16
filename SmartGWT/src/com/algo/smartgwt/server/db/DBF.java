@@ -75,6 +75,31 @@ class DataRequestCourses {
 		data = new Course[0];
 	}
 }
+
+class DataRequestChapter {
+	String dataSource;
+	String operationType;
+	String componentId;
+	Chapter oldValues;
+	Chapter data;
+	public DataRequestChapter(){
+		oldValues=null;
+		data=null;
+	}
+}
+
+class DataRequestCharters {
+	String dataSource;
+	String operationType;
+	String componentId;
+	String oldValues;
+	Chapter data[];
+	public DataRequestCharters(){
+		data = new Chapter[0];
+	}
+}
+
+
 /*
  * { "dataSource":"isc_ARestDataSource_0", "operationType":"add",
  * "componentId":"isc_ListGrid_0", "data":{ "countryCode":"555",
@@ -113,6 +138,16 @@ public class DBF {
 		List<Course> res = new ArrayList<Course>();
 		Gson gson = new Gson();
 		DataRequestCourse c = gson.fromJson(js,DataRequestCourse.class);
+		if (c.data != null) {
+			res.add(c.data);
+		}
+		return res;		
+	}
+	
+	public static List<Chapter> deJSONChapter(String js) {
+		List<Chapter> res = new ArrayList<Chapter>();
+		Gson gson = new Gson();
+		DataRequestChapter c = gson.fromJson(js,DataRequestChapter.class);
 		if (c.data != null) {
 			res.add(c.data);
 		}

@@ -46,5 +46,13 @@ public class Course {
 		Objectify ofy = DBF.getObjectify();
 		return ofy.query(Chapter.class).filter("courseKey", new Key<Course>(Course.class, getId())).list();
 	}
+	
+	public Chapter addChapter(Chapter chptr){
+		Objectify ofy = DBF.getObjectify();
+		chptr.setCourseKey(new Key<Course>(Course.class,getId()));
+		Key<Chapter> ch = ofy.put(chptr);
+		return chptr; 
+		
+	}
 
 }
