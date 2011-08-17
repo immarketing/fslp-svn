@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jcp.xml.dsig.internal.dom.Utils;
+
 import com.algo.smartgwt.LnrGlobals;
 import com.algo.smartgwt.server.db.Chapter;
 import com.algo.smartgwt.server.db.Course;
@@ -68,6 +70,8 @@ public class ChapterAdd extends HttpServlet {
 		//Enumeration en = req.getAttributeNames();
 		String s = "";
 		
+		s = com.algo.smartgwt.server.Utils.getRequestContent(req);
+		/*
 		BufferedReader rdr = null;//req.getReader();
 		//PrintWriter out = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF8"), true);
 		InputStreamReader isr = new  InputStreamReader(req.getInputStream(),"UTF8");
@@ -78,6 +82,7 @@ public class ChapterAdd extends HttpServlet {
 			s0 = rdr.readLine(); 
 			s += (s0==null?"":s0);
 		} while ( s0 != null);
+		*/
 		
 		String courseID = req.getParameter(LnrGlobals.CURRENT_COURCE_ID_PARAM_NAME); 
 		

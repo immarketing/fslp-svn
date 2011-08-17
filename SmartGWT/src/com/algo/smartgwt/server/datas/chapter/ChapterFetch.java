@@ -11,9 +11,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -26,8 +24,6 @@ import com.algo.smartgwt.server.db.Chapter;
 import com.algo.smartgwt.server.db.Course;
 import com.algo.smartgwt.server.db.DBF;
 import com.google.gson.Gson;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.Query;
 
 public class ChapterFetch extends HttpServlet {
 
