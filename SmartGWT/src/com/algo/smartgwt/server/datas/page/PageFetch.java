@@ -1,4 +1,4 @@
-package com.algo.smartgwt.server.datas.chapter;
+package com.algo.smartgwt.server.datas.page;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -25,15 +25,14 @@ import com.algo.smartgwt.server.db.Course;
 import com.algo.smartgwt.server.db.DBF;
 import com.google.gson.Gson;
 
-public class ChapterFetch extends HttpServlet {
+public class PageFetch extends HttpServlet {
 
-	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7359717884903921185L;
+	private static final long serialVersionUID = 8100475162072059464L;
 
-	public  ChapterFetch (){
+	public  PageFetch (){
 		super();
 	}
 
@@ -49,7 +48,7 @@ public class ChapterFetch extends HttpServlet {
 		doHandleRequest(req, resp);
 	}
 	
-	private Logger log = Logger.getLogger(ChapterFetch.class.getName()); 
+	private Logger log = Logger.getLogger(PageFetch.class.getName()); 
 
 	/*
 	private List<Course> getCoursesList(HttpServletRequest req,
@@ -115,24 +114,13 @@ public class ChapterFetch extends HttpServlet {
 		
 		//log.log(Level.WARNING, resp.toString());
 		
-		String courseID = req.getParameter(LnrGlobals.CURRENT_COURCE_ID_PARAM_NAME); 
+		String chapterID = req.getParameter(LnrGlobals.CURRENT_CHAPTER_ID_PARAM_NAME); 
 		//log.log(Level.WARNING, courseID + " == " + courseID);
 		
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF8"), true);
-		/*
-		Test t = new Test();
-		t.ttt = "проба";
-		Gson gson = new Gson();
-		String ret = gson.toJson(t);
-		out.println(ret);
-		if (true) {
-			return;
-		}
-		*/
-		
 		try {
-			Course crs = DBF.getObjectify().get(Course.class,new Long(courseID));
-			List<Chapter> chptrs = crs.getChapters();
+			Chapter crs = DBF.getObjectify().get(Chapter.class,new Long(chapterID));
+			List<Page> chptrs = crs.getChapters();
 			Gson gson = new Gson();
 			String ret = gson.toJson(DBF.prepareJSONReply(chptrs));
 			//log.log(Level.WARNING, ""+crs);

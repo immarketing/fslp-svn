@@ -87,6 +87,7 @@ public class DSFactory {
         
         DataSourceIntegerField chapterID = new DataSourceIntegerField("id", "ID");
         chapterID.setPrimaryKey(Boolean.TRUE);
+        chapterID.setCanEdit(Boolean.FALSE);
         DataSourceTextField chapterName = new DataSourceTextField("chapterName", "Chapter");  
         
         ret.setFields(chapterID, chapterName);

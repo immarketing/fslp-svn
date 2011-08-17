@@ -1,4 +1,4 @@
-package com.algo.smartgwt.server.datas.chapter;
+package com.algo.smartgwt.server.datas.page;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import com.algo.smartgwt.server.db.DBF;
 import com.google.gson.Gson;
 import com.googlecode.objectify.Objectify;
 
-public class ChapterAdd extends HttpServlet {
+public class PageAdd extends HttpServlet {
 
 
 	/**
@@ -26,7 +26,7 @@ public class ChapterAdd extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 5464913927840772011L;
 
-	public ChapterAdd() {
+	public PageAdd() {
 		super();
 	}
 
@@ -105,6 +105,6 @@ public class ChapterAdd extends HttpServlet {
 		
 	}
 	
-	private static Logger log = Logger.getLogger(ChapterAdd.class.getName()); 
+	private static Logger log = Logger.getLogger(PageAdd.class.getName()); 
 	
 }

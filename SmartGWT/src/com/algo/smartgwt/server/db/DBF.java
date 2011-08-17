@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
 import com.google.gson.reflect.TypeToken;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
@@ -134,6 +132,18 @@ public class DBF {
 		}
 		return res;		
 	}
+	
+	public static Chapter[] deJSONOldNewChapter(String js) {
+		Chapter res[] = new Chapter[2];
+		Gson gson = new Gson();
+		DataRequestChapter c = gson.fromJson(js,DataRequestChapter.class);
+		if (c.data != null) {
+			res[0] = c.oldValues;
+			res[1] = c.data;
+		}
+		return res;		
+	}
+	
 	public static List<Course> deJSONCourse(String js) {
 		List<Course> res = new ArrayList<Course>();
 		Gson gson = new Gson();
@@ -154,6 +164,7 @@ public class DBF {
 		return res;		
 	}
 	
+	/*
 	@Deprecated	
 	public static <T> T testDeJSON(String js, T tObject) {
 		Gson gson = new Gson();
@@ -170,6 +181,7 @@ public class DBF {
 
 		return null;
 	}
+	*/
 
 	public static Objectify getObjectify() {
 		return ObjectifyService.begin();
@@ -200,6 +212,7 @@ public class DBF {
 		//ObjectifyService.register(Car.class);
 		ObjectifyService.register(Course.class);
 		ObjectifyService.register(Chapter.class);
+		ObjectifyService.register(Page.class);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.algo.smartgwt.server.db;
 
+import java.util.List;
+
 import javax.persistence.Id;
 
 import com.googlecode.objectify.Key;
@@ -54,5 +56,19 @@ public class Chapter {
 		setChapterName(newVals.getChapterName());
 		ofy.put(this);
 	}
+	
+	public List<Page> getPages(){
+		Objectify ofy = DBF.getObjectify();
+		return ofy.query(Page.class).filter("chapterKey", new Key<Chapter>(Chapter.class, getId())).list();
+	}
+	
+	public Page addPage(Page pg){
+		Objectify ofy = DBF.getObjectify();
+		pg.setChapterKey(new Key<Chapter>(Chapter.class,getId()));
+		Key<Page> ch = ofy.put(pg);
+		return pg; 
+		
+	}
+	
 
 }

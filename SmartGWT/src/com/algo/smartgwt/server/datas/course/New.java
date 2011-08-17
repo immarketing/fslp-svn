@@ -78,7 +78,7 @@ public class New extends HttpServlet {
 			s += (s0==null?"":s0);
 		} while ( s0 != null);
 		
-		Country cntr0 = DBF.testDeJSON(s, new Country());
+		Country cntr0 = null ;//DBF.testDeJSON(s, new Country());
 
 		resp.setContentType("text/plain");
 		

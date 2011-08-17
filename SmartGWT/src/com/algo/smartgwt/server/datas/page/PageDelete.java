@@ -1,6 +1,7 @@
-package com.algo.smartgwt.server.datas.chapter;
+package com.algo.smartgwt.server.datas.page;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,18 +14,15 @@ import com.algo.smartgwt.server.db.DBF;
 import com.google.gson.Gson;
 import com.googlecode.objectify.Objectify;
 
-public class ChapterUpdate extends HttpServlet {
+public class PageDelete extends HttpServlet {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3424585213995453837L;
+	private static final long serialVersionUID = -2001923598631974882L;
 
-	/**
-	 * 
-	 */
-
-	public ChapterUpdate() {
+	public PageDelete() {
 		super();
 	}
 
@@ -40,18 +38,17 @@ public class ChapterUpdate extends HttpServlet {
 		doHandleRequest(req, resp);
 	}
 	
-	private Chapter updateChapter(Chapter vals[]){
+	private Chapter deleteChapter(Chapter val){
 		Objectify ofy = DBF.getObjectify();
-		Chapter old = ofy.get(Chapter.class, vals[0].getId());
-		old.doUpdate(ofy, vals[1]);
-		return old;
+		ofy.delete(val);
+		//Course old = ofy.get(Course.class, val.getId());
+		//old.doUpdate(ofy, vals[1]);
+		return val;
 	}
 	
 	private void doHandleRequest(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
 		String s = "";
-		
-		s = Utils.getRequestContent(req);
 		
 		/*
 		BufferedReader rdr = req.getReader();
@@ -61,17 +58,16 @@ public class ChapterUpdate extends HttpServlet {
 			s0 = rdr.readLine(); 
 			s += (s0==null?"":s0);
 		} while ( s0 != null);
-		*/
 		
 		resp.setContentType("text/plain");
-		resp.setContentType("application/json");		
-		resp.setCharacterEncoding("utf-8");
+		*/
 		
-		Chapter cntr0[] = DBF.deJSONOldNewChapter(s);
-		Chapter updated = updateChapter(cntr0);
+		s = Utils.getRequestContent(req);
+		
+		List<Chapter> cntr0 = DBF.deJSONChapter(s);
+		Chapter updated = deleteChapter(cntr0.get(0));
 		
 		Object rpl = DBF.prepareJSONReply(updated);
-		
 		Gson gson = new Gson();
 		
 		resp.getWriter().println(gson.toJson( rpl ));
@@ -79,5 +75,5 @@ public class ChapterUpdate extends HttpServlet {
 		
 	}
 	
-	
+
 }

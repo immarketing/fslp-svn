@@ -1,4 +1,4 @@
-package com.algo.smartgwt.server.datas.chapter;
+package com.algo.smartgwt.server.datas.page;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import com.algo.smartgwt.server.db.DBF;
 import com.google.gson.Gson;
 import com.googlecode.objectify.Objectify;
 
-public class ChapterUpdate extends HttpServlet {
+public class PageUpdate extends HttpServlet {
 
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class ChapterUpdate extends HttpServlet {
 	 * 
 	 */
 
-	public ChapterUpdate() {
+	public PageUpdate() {
 		super();
 	}
 
