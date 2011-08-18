@@ -110,6 +110,42 @@
     <url-pattern>/smartgwt/chapter/remove</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>pageFetch</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.page.PageFetch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>pageFetch</servlet-name>
+    <url-pattern>/smartgwt/page/fetch</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>pageAdd</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.page.PageAdd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>pageAdd</servlet-name>
+    <url-pattern>/smartgwt/page/add</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>pageUpdate</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.page.PageUpdate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>pageUpdate</servlet-name>
+    <url-pattern>/smartgwt/page/update</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>pageDelete</servlet-name>
+    <servlet-class>com.algo.smartgwt.server.datas.page.PageDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>pageDelete</servlet-name>
+    <url-pattern>/smartgwt/page/remove</url-pattern>
+  </servlet-mapping>
+
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>SmartGWT.html</welcome-file>
