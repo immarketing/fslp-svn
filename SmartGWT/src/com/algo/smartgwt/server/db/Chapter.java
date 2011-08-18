@@ -65,6 +65,7 @@ public class Chapter {
 	public Page addPage(Page pg){
 		Objectify ofy = DBF.getObjectify();
 		pg.setChapterKey(new Key<Chapter>(Chapter.class,getId()));
+		@SuppressWarnings("unused")
 		Key<Page> ch = ofy.put(pg);
 		return pg; 
 		

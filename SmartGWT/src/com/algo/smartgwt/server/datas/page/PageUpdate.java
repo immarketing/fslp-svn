@@ -8,17 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.algo.smartgwt.server.Utils;
-import com.algo.smartgwt.server.db.Chapter;
 import com.algo.smartgwt.server.db.DBF;
+import com.algo.smartgwt.server.db.Page;
 import com.google.gson.Gson;
 import com.googlecode.objectify.Objectify;
 
 public class PageUpdate extends HttpServlet {
 
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3424585213995453837L;
+	private static final long serialVersionUID = 7757800677932365561L;
 
 	/**
 	 * 
@@ -40,9 +41,9 @@ public class PageUpdate extends HttpServlet {
 		doHandleRequest(req, resp);
 	}
 	
-	private Chapter updateChapter(Chapter vals[]){
+	private Page updatePage(Page vals[]){
 		Objectify ofy = DBF.getObjectify();
-		Chapter old = ofy.get(Chapter.class, vals[0].getId());
+		Page old = ofy.get(Page.class, vals[0].getId());
 		old.doUpdate(ofy, vals[1]);
 		return old;
 	}
@@ -53,22 +54,12 @@ public class PageUpdate extends HttpServlet {
 		
 		s = Utils.getRequestContent(req);
 		
-		/*
-		BufferedReader rdr = req.getReader();
-		
-		String  s0;
-		do {
-			s0 = rdr.readLine(); 
-			s += (s0==null?"":s0);
-		} while ( s0 != null);
-		*/
-		
-		resp.setContentType("text/plain");
+		//resp.setContentType("text/plain");
 		resp.setContentType("application/json");		
 		resp.setCharacterEncoding("utf-8");
 		
-		Chapter cntr0[] = DBF.deJSONOldNewChapter(s);
-		Chapter updated = updateChapter(cntr0);
+		Page cntr0[] = DBF.deJSONOldNewPage(s);
+		Page updated = updatePage(cntr0);
 		
 		Object rpl = DBF.prepareJSONReply(updated);
 		

@@ -3,7 +3,6 @@ package com.algo.smartgwt.server.datas.page;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -13,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.algo.smartgwt.LnrGlobals;
 import com.algo.smartgwt.server.db.Chapter;
-import com.algo.smartgwt.server.db.Course;
 import com.algo.smartgwt.server.db.DBF;
+import com.algo.smartgwt.server.db.Page;
 import com.google.gson.Gson;
 import com.googlecode.objectify.Objectify;
 
@@ -24,7 +23,7 @@ public class PageAdd extends HttpServlet {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5464913927840772011L;
+	private static final long serialVersionUID = -8802132814365086602L;
 
 	public PageAdd() {
 		super();
@@ -42,15 +41,14 @@ public class PageAdd extends HttpServlet {
 		doHandleRequest(req, resp);
 	}
 	
-	private Chapter storeChapter(Long courseID, Chapter cntr){
+	private Page storePage(Long chapterID, Page cntr){
 		Objectify ofy = DBF.getObjectify();
 		
-		Course crs = ofy.get(Course.class, courseID);
+		Chapter crs = ofy.get(Chapter.class, chapterID);
 		
 
-		Chapter c = cntr;
-		crs.addChapter(c);
-		//ofy.put(c);
+		Page c = cntr;
+		crs.addPage(c);
 		assert c.getId() != null;  
 		//log.log(Level.WARNING, "porsche.getId() == " + c.getId());
 		return c;
@@ -59,52 +57,30 @@ public class PageAdd extends HttpServlet {
 	
 	private void doHandleRequest(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
-		//Logger log = Logger.getLogger(Add.class.getName());
-		//log.log(Level.WARNING, req.toString());
-		
-		//Enumeration en = req.getAttributeNames();
 		String s = "";
 		
 		s = com.algo.smartgwt.server.Utils.getRequestContent(req);
-		/*
-		BufferedReader rdr = null;//req.getReader();
-		//PrintWriter out = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF8"), true);
-		InputStreamReader isr = new  InputStreamReader(req.getInputStream(),"UTF8");
-		rdr = new BufferedReader(isr);
-		//isr.re
-		String  s0;
-		do {
-			s0 = rdr.readLine(); 
-			s += (s0==null?"":s0);
-		} while ( s0 != null);
-		*/
 		
-		String courseID = req.getParameter(LnrGlobals.CURRENT_COURCE_ID_PARAM_NAME); 
+		String chapterID = req.getParameter(LnrGlobals.CURRENT_COURCE_ID_PARAM_NAME); 
 		
-		List<Chapter> cntr0 = DBF.deJSONChapter(s);
+		List<Page> cntr0 = DBF.deJSONPage(s);
 
-		//resp.setContentType("text/plain");
 		resp.setContentType("application/json");
 		
 		resp.setCharacterEncoding("utf-8");
 		
-		Chapter c = storeChapter(new Long(courseID), cntr0.get(0));
+		Page c = storePage(new Long(chapterID), cntr0.get(0));
 		
-		/*
-		
-		Course c = storeCourse(cntr0.get(0));
-		
-		
-		*/		
 		Gson gson = new Gson();
-		List<Chapter> c0 = new ArrayList<Chapter>();
+		List<Page> c0 = new ArrayList<Page>();
 		c0.add(c);
 		Object rpl = DBF.prepareJSONReply(c0);
-		log.log(Level.WARNING, gson.toJson( rpl ));
+		//log.log(Level.WARNING, gson.toJson( rpl ));
 		resp.getWriter().println(gson.toJson( rpl ));
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private static Logger log = Logger.getLogger(PageAdd.class.getName()); 
 	
 }

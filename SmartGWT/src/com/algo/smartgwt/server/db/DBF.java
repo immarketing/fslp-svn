@@ -1,11 +1,9 @@
 package com.algo.smartgwt.server.db;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
@@ -71,6 +69,29 @@ class DataRequestCourses {
 	Course data[];
 	public DataRequestCourses(){
 		data = new Course[0];
+	}
+}
+
+class DataRequestPage {
+	String dataSource;
+	String operationType;
+	String componentId;
+	Page oldValues;
+	Page data;
+	public DataRequestPage(){
+		oldValues=null;
+		data=null;
+	}
+}
+
+class DataRequestPages {
+	String dataSource;
+	String operationType;
+	String componentId;
+	String oldValues;
+	Page data[];
+	public DataRequestPages(){
+		data = new Page[0];
 	}
 }
 
@@ -144,6 +165,17 @@ public class DBF {
 		return res;		
 	}
 	
+	public static Page[] deJSONOldNewPage(String js) {
+		Page res[] = new Page[2];
+		Gson gson = new Gson();
+		DataRequestPage c = gson.fromJson(js,DataRequestPage.class);
+		if (c.data != null) {
+			res[0] = c.oldValues;
+			res[1] = c.data;
+		}
+		return res;		
+	}
+
 	public static List<Course> deJSONCourse(String js) {
 		List<Course> res = new ArrayList<Course>();
 		Gson gson = new Gson();
@@ -164,6 +196,16 @@ public class DBF {
 		return res;		
 	}
 	
+	public static List<Page> deJSONPage(String js) {
+		List<Page> res = new ArrayList<Page>();
+		Gson gson = new Gson();
+		DataRequestPage c = gson.fromJson(js,DataRequestPage.class);
+		if (c.data != null) {
+			res.add(c.data);
+		}
+		return res;		
+	}
+
 	/*
 	@Deprecated	
 	public static <T> T testDeJSON(String js, T tObject) {

@@ -23,6 +23,7 @@ import com.algo.smartgwt.LnrGlobals;
 import com.algo.smartgwt.server.db.Chapter;
 import com.algo.smartgwt.server.db.Course;
 import com.algo.smartgwt.server.db.DBF;
+import com.algo.smartgwt.server.db.Page;
 import com.google.gson.Gson;
 
 public class PageFetch extends HttpServlet {
@@ -120,7 +121,7 @@ public class PageFetch extends HttpServlet {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF8"), true);
 		try {
 			Chapter crs = DBF.getObjectify().get(Chapter.class,new Long(chapterID));
-			List<Page> chptrs = crs.getChapters();
+			List<Page> chptrs = crs.getPages();
 			Gson gson = new Gson();
 			String ret = gson.toJson(DBF.prepareJSONReply(chptrs));
 			//log.log(Level.WARNING, ""+crs);
@@ -129,7 +130,8 @@ public class PageFetch extends HttpServlet {
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			List<Chapter> chptrs = new ArrayList<Chapter>();
+			
+			List<Page> chptrs = new ArrayList<Page>();
 			Gson gson = new Gson();
 			String ret = gson.toJson(DBF.prepareJSONReply(chptrs));
 			resp.getWriter().println(ret);
