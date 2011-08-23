@@ -61,7 +61,8 @@ public class PageAdd extends HttpServlet {
 		
 		s = com.algo.smartgwt.server.Utils.getRequestContent(req);
 		
-		String chapterID = req.getParameter(LnrGlobals.CURRENT_COURCE_ID_PARAM_NAME); 
+		//String chapterID = req.getParameter(LnrGlobals.CURRENT_COURCE_ID_PARAM_NAME); 
+		String chapterID = req.getParameter(LnrGlobals.CURRENT_CHAPTER_ID_PARAM_NAME);
 		
 		List<Page> cntr0 = DBF.deJSONPage(s);
 
