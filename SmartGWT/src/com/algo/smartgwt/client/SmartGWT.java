@@ -1,5 +1,10 @@
 package com.algo.smartgwt.client;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import com.algo.smartgwt.client.controls.CCFactory;
+import com.algo.smartgwt.client.controls.ControlCanvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.smartgwt.client.types.TreeModelType;
 import com.smartgwt.client.util.SC;
@@ -25,13 +30,21 @@ public class SmartGWT implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	
-	class MyTreeNode extends TreeNode implements SelectionUpdatedHandler{
-		MyTreeNode (){
+	class ControlCanvasTreeNode extends TreeNode implements SelectionUpdatedHandler{
+		ControlCanvasTreeNode (){
 			super();
 		}
 		
-		MyTreeNode(String s) {
-			super(s);
+		private ControlCanvas controlCanvas;
+		
+		ControlCanvasTreeNode (ControlCanvas controlCanvas){
+			this (controlCanvas.getName());
+			this.controlCanvas = controlCanvas;
+			
+		}
+
+		public ControlCanvasTreeNode(String name) {
+			super(name);
 		}
 
 		@Override
@@ -69,12 +82,23 @@ public class SmartGWT implements EntryPoint {
 
 		Tree data = new Tree();
 
-		TreeNode tn = new MyTreeNode("ТестНода");
+		//TreeNode tn = new MyTreeNode("ТестНода");
 		
+		TreeNode rootNode = new TreeNode("root");
+		
+		List<ControlCanvasTreeNode> ar = new ArrayList<ControlCanvasTreeNode>();
+		for (ControlCanvas cc : CCFactory.get().getControlCanvases()) {
+			ControlCanvasTreeNode tn = new ControlCanvasTreeNode(cc);
+			ar.add(tn);
+		}
+		rootNode.setChildren(ar.toArray(new ControlCanvasTreeNode[0]));
+		
+		/*
 		data.setModelType(TreeModelType.CHILDREN);
 		data.setRoot(new TreeNode("root", new TreeNode("Курсы"), new TreeNode(
 				"Тесты"), new TreeNode("Вопросы"), new TreeNode("Ответы"), tn));
 
+		*/
 		treeGrid.setData(data);
 
 		treeGrid.addSelectionUpdatedHandler(new SelectionUpdatedHandler() {
@@ -117,5 +141,10 @@ public class SmartGWT implements EntryPoint {
 
 		// or
 		// RootPanel.get().add(button);
+	}
+
+	private List ArrayList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
