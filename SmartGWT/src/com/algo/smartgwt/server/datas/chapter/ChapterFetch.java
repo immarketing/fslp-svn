@@ -118,7 +118,6 @@ public class ChapterFetch extends HttpServlet {
 		String courseID = req.getParameter(LnrGlobals.CURRENT_COURCE_ID_PARAM_NAME); 
 		//log.log(Level.WARNING, courseID + " == " + courseID);
 		
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF8"), true);
 		/*
 		Test t = new Test();
 		t.ttt = "проба";
@@ -137,6 +136,7 @@ public class ChapterFetch extends HttpServlet {
 			String ret = gson.toJson(DBF.prepareJSONReply(chptrs));
 			//log.log(Level.WARNING, ""+crs);
 			//resp.getWriter().println(recode(ret));
+			PrintWriter out = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF8"), true);
 			out.println(ret);
 			
 		} catch (Exception ex) {
@@ -146,7 +146,6 @@ public class ChapterFetch extends HttpServlet {
 			String ret = gson.toJson(DBF.prepareJSONReply(chptrs));
 			resp.getWriter().println(ret);
 		}
-		
 		
 		//resp.getWriter().println(gson.toJson(new AReply () ));
 		//resp.getWriter().println(gson.toJson(DBF.prepareJSONReply(new Country("North America","United States","US")) ));

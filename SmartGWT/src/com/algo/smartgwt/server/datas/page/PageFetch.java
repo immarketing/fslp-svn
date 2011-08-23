@@ -118,7 +118,6 @@ public class PageFetch extends HttpServlet {
 		String chapterID = req.getParameter(LnrGlobals.CURRENT_CHAPTER_ID_PARAM_NAME); 
 		//log.log(Level.WARNING, courseID + " == " + courseID);
 		
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF8"), true);
 		try {
 			Chapter crs = DBF.getObjectify().get(Chapter.class,new Long(chapterID));
 			List<Page> chptrs = crs.getPages();
@@ -126,6 +125,7 @@ public class PageFetch extends HttpServlet {
 			String ret = gson.toJson(DBF.prepareJSONReply(chptrs));
 			//log.log(Level.WARNING, ""+crs);
 			//resp.getWriter().println(recode(ret));
+			PrintWriter out = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF8"), true);
 			out.println(ret);
 			
 		} catch (Exception ex) {
