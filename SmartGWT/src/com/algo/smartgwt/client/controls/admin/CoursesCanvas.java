@@ -10,7 +10,7 @@ public class CoursesCanvas extends ControlCanvas {
 	private Context context;
 	
 	public CoursesCanvas (String name, Context context ){
-		super();
+		super(name,name);
 		create(context);
 	}
 
@@ -26,6 +26,8 @@ public class CoursesCanvas extends ControlCanvas {
 		layout.addMember(context.getPageCanvas());
 		layout.setShowEdges(true);
 		layout.setLayoutMargin(10);
+		
+		controlCanvas = layout; 
 	}
 	
 	@Override

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import com.algo.smartgwt.client.controls.CCFactory;
 import com.algo.smartgwt.client.controls.ControlCanvas;
+import com.algo.smartgwt.client.controls.admin.CoursesCanvas;
+import com.algo.smartgwt.client.controls.admin.QuestionsCanvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.smartgwt.client.types.TreeModelType;
 import com.smartgwt.client.util.SC;
@@ -13,6 +15,7 @@ import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.grid.CellFormatter;
 import com.smartgwt.client.widgets.layout.HLayout;
+import com.smartgwt.client.widgets.layout.Layout;
 import com.smartgwt.client.widgets.tree.Tree;
 import com.smartgwt.client.widgets.tree.TreeGrid;
 import com.smartgwt.client.widgets.tree.TreeGridField;
@@ -36,11 +39,12 @@ public class SmartGWT implements EntryPoint {
 		}
 		
 		private ControlCanvas controlCanvas;
+		private Layout viewport;
 		
-		ControlCanvasTreeNode (ControlCanvas controlCanvas){
+		ControlCanvasTreeNode (ControlCanvas controlCanvas, Layout viewport){
 			this (controlCanvas.getName());
 			this.controlCanvas = controlCanvas;
-			
+			this.viewport = viewport;
 		}
 
 		public ControlCanvasTreeNode(String name) {
@@ -49,15 +53,22 @@ public class SmartGWT implements EntryPoint {
 
 		@Override
 		public void onSelectionUpdated(SelectionUpdatedEvent event) {
-			// TODO Auto-generated method stub
 			TreeGrid treeGrid = (TreeGrid) event.getSource();
+			
+			viewport.setMembers(controlCanvas.getCanvas());
+			/*
 			SC.say(treeGrid.getSelectedRecord().getAttribute("name") + " "
 					+ event.getX() + " " + event.getY());
+					*/
+			
 			
 		}
 	}
 	
 	public void onModuleLoad() {
+		CCFactory.get().registerControlCanvas(new CoursesCanvas("Учебные курсы", Context.get()));
+		CCFactory.get().registerControlCanvas(new QuestionsCanvas("Вопросы", Context.get()));
+		
 		HLayout layout = new HLayout();
 		layout.setWidth100();
 		layout.setHeight100();
@@ -86,9 +97,11 @@ public class SmartGWT implements EntryPoint {
 		
 		TreeNode rootNode = new TreeNode("root");
 		
+		Layout viewPortLayout = new Layout();		
+		
 		List<ControlCanvasTreeNode> ar = new ArrayList<ControlCanvasTreeNode>();
 		for (ControlCanvas cc : CCFactory.get().getControlCanvases()) {
-			ControlCanvasTreeNode tn = new ControlCanvasTreeNode(cc);
+			ControlCanvasTreeNode tn = new ControlCanvasTreeNode(cc, viewPortLayout);
 			ar.add(tn);
 		}
 		rootNode.setChildren(ar.toArray(new ControlCanvasTreeNode[0]));
@@ -99,6 +112,8 @@ public class SmartGWT implements EntryPoint {
 				"Тесты"), new TreeNode("Вопросы"), new TreeNode("Ответы"), tn));
 
 		*/
+		data.setModelType(TreeModelType.CHILDREN);
+		data.setRoot(rootNode);
 		treeGrid.setData(data);
 
 		treeGrid.addSelectionUpdatedHandler(new SelectionUpdatedHandler() {
@@ -126,6 +141,14 @@ public class SmartGWT implements EntryPoint {
 		treeGrid.setFields(field);
 
 		layout.addMember(treeGrid);
+		
+		viewPortLayout.setWidth100();
+		viewPortLayout.setHeight100();
+		
+		layout.addMember(viewPortLayout);
+		
+		/*
+		
 
 		// layout.addMember(new IButton("Hello World 1"));
 		// layout.addMember(new IButton("Hello World 2"));
@@ -136,6 +159,7 @@ public class SmartGWT implements EntryPoint {
 		layout.setShowEdges(true);
 		// layout.setMembersMargin(5);
 		layout.setLayoutMargin(10);
+		*/
 
 		layout.draw();
 

@@ -10,6 +10,11 @@ public abstract class ControlCanvas {
 	
 	abstract public Canvas getCanvas();
 	
+	protected ControlCanvas(String name, String title){
+		this.name = name;
+		this.title = title;
+	}
+	
 	public String getName() {
 		return name;
 	}
