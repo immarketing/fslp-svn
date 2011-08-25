@@ -157,7 +157,7 @@ public class LGFactory {
         label.setValign(VerticalAlignment.CENTER);  
         label.setWrap(false);  
         label.setShowEdges(true);  
-        label.setContents("<i>Approved</i> for release");
+        label.setContents(text);
         return label;
 	}
 	
@@ -202,7 +202,7 @@ public class LGFactory {
 	public static Canvas createPageCanvas(){
 		VLayout layout = new VLayout();
 		
-		Label label = createHeaderLabel("Страницы курсов");
+		Label label = createHeaderLabel("Страницы разделов");
         layout.setAlign(Alignment.CENTER);
         layout.addMember(label);
         
