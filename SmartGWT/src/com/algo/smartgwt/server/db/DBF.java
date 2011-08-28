@@ -1,9 +1,12 @@
 package com.algo.smartgwt.server.db;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
@@ -205,31 +208,38 @@ public class DBF {
 		}
 		return res;		
 	}
-
-	/*
-	@Deprecated	
-	public static <T> T testDeJSON(String js, T tObject) {
+	
+	private static <T> T doTestDeJSON_(String js , T tObject){
 		Gson gson = new Gson();
 		//gson = new GsonBuilder().registerTypeAdapter(DataRequestT.class, new IdInstanceCreator<T>()).create();
 		// int DataRequestT;
-		Type typeOfT = new TypeToken<DataRequestT>() {
+		Type typeOfT = new TypeToken<T>() {
 		}.getType();
-		DataRequestT<T> o = gson.fromJson(js, typeOfT);
+		T o = gson.fromJson(js, typeOfT);
 		//o.getClass().getName()
 		if (o != null) {
-			T ttt = (T)o.getData();// (T)o.data;
-			return ttt;// o.data;
+			//T ttt = (T)o.getData();// (T)o.data;
+			return o ; //ttt;// o.data;
 		}
 
 		return null;
+		
 	}
-	*/
+
+
+	@Deprecated	
+	public static <T> T testDeJSON_ (String js , T tObject) {
+		DataRequestT<T> tn = new DataRequestT<T>();
+		tn.data = tObject;
+		tn = doTestDeJSON_(js, tn);
+		return tn.data;
+	}
 
 	public static Objectify getObjectify() {
-		return ObjectifyService.begin();
+		return DBFMetaData.get().getObjectify();// ObjectifyService.begin();
 	}
 
-	public static Object prepareJSONReply(List reply) {
+	public static Object prepareJSONReply(List<?> reply) {
 		AReply ar = new AReply();
 
 		ar.response.totalRows = reply.size();
@@ -239,7 +249,7 @@ public class DBF {
 		return ar;
 	}
 
-	public static Object prepareJSONReply(Object reply) {
+	public static <T> Object prepareJSONReply(T reply) {
 		// Object ret = null;
 		// gson.
 		// final Object intRepl = reply;
@@ -248,13 +258,33 @@ public class DBF {
 		ar.response.data[0] = reply;
 		return ar;
 	}
+	
+	public static <T> List<T> listDBObj(Class<T> aClass){
+		Objectify ofy = DBF.getObjectify();
+		return ofy.query(aClass).list();
+	}
+
+	public static <P,C> List<C> listDBObjChilds(Class<P> aParent, Long parID, Class<C> aChild){
+		Objectify ofy = DBF.getObjectify();
+		
+		return null;
+		//DBFMetaData.get().get
+		//return ofy.query(aChild).filter("courseKey", new Key<Course>(Course.class, getId())).list();
+		
+		//return ofy.query(Chapter.class).filter("courseKey", new Key<Course>(Course.class, getId())).list();
+		//return ofy.query(aClass).list();
+	}
 
 	static {
 		//ObjectifyService.register(Country.class);
 		//ObjectifyService.register(Car.class);
-		ObjectifyService.register(Course.class);
-		ObjectifyService.register(Chapter.class);
-		ObjectifyService.register(Page.class);
+		
+		DBFMetaData.get().registerDBClass(Course.class); // ObjectifyService.register(Course.class);
+		
+		DBFMetaData.get().registerDBClass(Chapter.class); // ObjectifyService.register(Chapter.class);
+		DBFMetaData.get().registerDefaultFK(Course.class, Chapter.class, "courseKey");
+		
+		DBFMetaData.get().registerDBClass(Page.class); // ObjectifyService.register(Page.class);
 	}
 
 }

@@ -74,6 +74,8 @@ public class CourseAdd extends HttpServlet {
 		} while ( s0 != null);
 		
 		List<Course> cntr0 = DBF.deJSONCourse(s);
+		
+		Course c0_ = DBF.testDeJSON_(s, new Course());
 
 		resp.setContentType("text/plain");
 		

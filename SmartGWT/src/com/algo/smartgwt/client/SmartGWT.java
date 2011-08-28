@@ -142,7 +142,8 @@ public class SmartGWT implements EntryPoint {
 
 		layout.addMember(treeGrid);
 		
-		viewPortLayout.setWidth100();
+		viewPortLayout.setWidth("*");
+		//setWidth100();
 		viewPortLayout.setHeight100();
 		
 		layout.addMember(viewPortLayout);
