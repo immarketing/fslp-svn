@@ -14,6 +14,8 @@ import com.google.gson.reflect.TypeToken;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 
+import java.util.Arrays;
+
 class Reply {
 	public int status = 0;
 	@SuppressWarnings({})
@@ -50,6 +52,10 @@ class DataRequestT<T> {
 	public String componentId;
 	public String oldValues;
 	public T data;
+
+	public DataRequestT() {
+
+	}
 
 	@SuppressWarnings("unchecked")
 	public DataRequestT(Class<? extends Object> aClass) {
@@ -249,6 +255,105 @@ public class DBF {
 
 	}
 
+	private static <T> Field[] getFields(Class<T> aClass) {
+		if (aClass == null) {
+			return new Field[0];
+		}
+		Field fos[] = aClass.getDeclaredFields();
+		// List<?> fosList = Arrays.asList(fos);
+		int ln1 = fos.length;
+
+		Field fosSuper[] = getFields(aClass.getSuperclass());
+		// List<?> fosSuperList = Arrays.asList(fosSuper);
+		int ln2 = fosSuper.length;
+
+		int ln = ln1 + ln2;
+
+		Field result[] = new Field[ln];
+
+		System.arraycopy(fos, 0, result, 0, ln1);
+		System.arraycopy(fosSuper, 0, result, ln1, ln2);
+
+		return result;
+	}
+
+	private static <T> T testDeJSON_JsonObject(JsonElement jsonElement,
+			Class<T> aClass) {
+		T result = null;
+
+		JsonObject array = null; // jsonElement.getAsJsonObject();
+
+		if (jsonElement.isJsonNull()) {
+			return result;
+		}
+
+		if (jsonElement.isJsonObject()) {
+			array = jsonElement.getAsJsonObject();
+		}
+
+		Field flds[] = getFields(aClass);
+
+		try {
+			result = aClass.newInstance();
+
+			Field fos[] = flds;
+			for (Field af : fos) {
+				String nm = af.getName();
+
+				JsonElement je = null;
+
+				if (array.has(nm)) {
+					je = array.get(nm);
+				}
+
+				if (je == null) {
+					continue;
+				}
+
+				if (je.isJsonNull()) {
+					continue;
+				}
+
+				if (je.isJsonPrimitive()) {
+					JsonPrimitive jp = je.getAsJsonPrimitive();
+					try {
+						if (jp.isString()) {
+							af.set(result, jp.getAsString());
+						} else if (jp.isNumber()) {
+							af.set(result, jp.getAsNumber());
+						}
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					}
+				} else if (je.isJsonObject()) {
+					try {
+						T obj = (T) aClass.newInstance();
+
+						JsonObject jo = je.getAsJsonObject();
+
+						// jo.
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+			}
+
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 	@Deprecated
 	public static <T> T testDeJSON_(String js, T tObject) {
 		/*
@@ -265,6 +370,12 @@ public class DBF {
 			DataRequestT<T> ttt = new DataRequestT<T>(tObject.getClass());
 
 			Field fos[] = ttt.getClass().getDeclaredFields();
+
+			testDeJSON_JsonObject(array, DataRequestT.class);
+
+			// List<T> lt = new ArrayList<T>();
+			// tObject.getClass().ne
+			// T tar[] = new T[10];
 
 			for (Field af : fos) {
 				String nm = af.getName();
@@ -288,17 +399,28 @@ public class DBF {
 					try {
 						if (jp.isString()) {
 							af.set(ttt, jp.getAsString());
-						} else if (jp.isNumber()){
-							af.set(ttt, jp.getAsNumber());							
+						} else if (jp.isNumber()) {
+							af.set(ttt, jp.getAsNumber());
 						}
 					} catch (IllegalArgumentException e) {
 						e.printStackTrace();
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
 					}
+				} else if (je.isJsonObject()) {
+					try {
+						T obj = (T) tObject.getClass().newInstance();
+
+						JsonObject jo = je.getAsJsonObject();
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
 				}
-
 			}
 
 			/*
