@@ -39,7 +39,8 @@
 
   <servlet>
     <servlet-name>courseFetch</servlet-name>
-    <servlet-class>com.algo.smartgwt.server.datas.course.CourseFetch</servlet-class>
+    <!-- <servlet-class>com.algo.smartgwt.server.datas.course.CourseFetch</servlet-class> -->
+	<servlet-class>com.algo.smartgwt.server.datas.course.CourseFetchDBObj</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>courseFetch</servlet-name>
