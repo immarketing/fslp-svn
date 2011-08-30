@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Query;
 
+@Deprecated
 public class CourseFetch extends HttpServlet {
 
 	/**

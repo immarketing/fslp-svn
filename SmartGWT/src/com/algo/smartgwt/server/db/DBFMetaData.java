@@ -50,10 +50,13 @@ public class DBFMetaData {
 		}
 	}
 
-	private static class DefaultForeignKey extends ForeignKey{
-		private DefaultForeignKey (Class<?> parentClass, String parentPKFieldName,
+	private static class ParentChildForeignKey extends ForeignKey{
+		private ParentChildForeignKey (Class<?> parentClass, String parentPKFieldName,
 				Class<?> childClass, String childFKFieldName) {
 			super(parentClass, parentPKFieldName, childClass, childFKFieldName);
+		}
+		private ParentChildForeignKey (Class<?> parentClass, Class<?> childClass, String childFKFieldName) {
+			this (childClass, "", childClass, childFKFieldName);
 		}
 		
 		protected String calcFKHash() {
@@ -67,7 +70,7 @@ public class DBFMetaData {
 		return singleton;
 	}
 
-	Map<String, ForeignKey> registeredFKs = new Hashtable<String, DBFMetaData.ForeignKey>();
+	private Map<String, ForeignKey> registeredFKs = new Hashtable<String, DBFMetaData.ForeignKey>();
 
 	public String getFKFieldName(Class<?> parentClass, Class<?> childClass) {
 		String hsh = ForeignKey.calcFKHash(parentClass, childClass);
@@ -96,9 +99,9 @@ public class DBFMetaData {
 		registeredFKs.put(fk.getFkHash(), fk);
 	}
 
-	public void registerDefaultFK(Class<?> parentClass, Class<?> childClass,
+	public void registerParentChildFK(Class<?> parentClass, Class<?> childClass,
 			String childFKFieldName) {
-		ForeignKey fk = new DefaultForeignKey(childClass, childFKFieldName,
+		ForeignKey fk = new ParentChildForeignKey(childClass, childFKFieldName,
 				childClass, childFKFieldName);
 		registerFK (fk);
 	}

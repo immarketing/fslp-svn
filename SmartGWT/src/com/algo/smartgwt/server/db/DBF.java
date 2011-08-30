@@ -1,14 +1,16 @@
 package com.algo.smartgwt.server.db;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyService;
 
 class Reply {
 	public int status = 0;
@@ -41,11 +43,28 @@ class DataRequest {
 }
 
 class DataRequestT<T> {
-	String dataSource;
-	String operationType;
-	String componentId;
-	String oldValues;
-	T data;
+	public String dataSource;
+	public String operationType;
+	public String componentId;
+	public String oldValues;
+	public T data;
+	
+	@SuppressWarnings("unchecked")
+	public DataRequestT(Class<? extends Object> aClass){
+		/*
+		T.class.getClass().newInstance();
+		data = new T();
+		*/
+		try {
+			data = (T) aClass.newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	T getData() {
 		return data;
@@ -229,7 +248,66 @@ public class DBF {
 
 	@Deprecated	
 	public static <T> T testDeJSON_ (String js , T tObject) {
-		DataRequestT<T> tn = new DataRequestT<T>();
+		/*
+class DataRequestT<T> {
+	String dataSource;
+	String operationType;
+	String componentId;
+	String oldValues;
+	T data;
+
+	T getData() {
+		return data;
+	}
+}
+		 * 
+		 */
+		
+		JsonParser parser = new JsonParser();
+	    if (parser.parse(js).isJsonObject()){
+	    	JsonObject array = parser.parse(js).getAsJsonObject();
+	    	
+	    	DataRequestT<T> ttt = new DataRequestT<T>(tObject.getClass());
+	    	
+	    	if (array.has("dataSource")) {
+	    		ttt.dataSource = array.get("dataSource").getAsString(); 
+	    	}
+		    
+	    	if (array.has("operationType")) {
+	    		ttt.operationType = array.get("operationType").getAsString(); 
+	    	}
+
+	    	if (array.has("componentId")) {
+	    		ttt.componentId = array.get("componentId").getAsString(); 
+	    	}
+
+	    	if (array.has("data")) {
+	    		//ttt.data = array.get("data").; 
+	    		//ttt.componentId = array.get("componentId").getAsString();
+	    		Field f [] = ttt.data.getClass().getFields();
+	    		for (Field af: f){
+	    			try {
+						af.set(ttt.data, array.get("data").getAsJsonObject().get(af.getName()).getAsJsonPrimitive());
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    		}
+	    		//ttt.data = new T();
+	    	}
+
+	    	if (array.equals(array)) {
+		    	
+		    }
+		    //logging.
+	    }
+		
+	    //getAsJsonArray();
+		
+		DataRequestT<T> tn = new DataRequestT<T>(tObject.getClass());
 		tn.data = tObject;
 		tn = doTestDeJSON_(js, tn);
 		return tn.data;
@@ -267,7 +345,10 @@ public class DBF {
 	public static <P,C> List<C> listDBObjChilds(Class<P> aParent, Long parID, Class<C> aChild){
 		Objectify ofy = DBF.getObjectify();
 		
-		return null;
+		String fkFieldName = DBFMetaData.get().getFKFieldName(aParent, aChild);
+		
+		return ofy.query(aChild).filter(fkFieldName, new Key<P>(aParent,parID)).list();
+		
 		//DBFMetaData.get().get
 		//return ofy.query(aChild).filter("courseKey", new Key<Course>(Course.class, getId())).list();
 		
@@ -282,7 +363,7 @@ public class DBF {
 		DBFMetaData.get().registerDBClass(Course.class); // ObjectifyService.register(Course.class);
 		
 		DBFMetaData.get().registerDBClass(Chapter.class); // ObjectifyService.register(Chapter.class);
-		DBFMetaData.get().registerDefaultFK(Course.class, Chapter.class, "courseKey");
+		DBFMetaData.get().registerParentChildFK(Course.class, Chapter.class, "courseKey");
 		
 		DBFMetaData.get().registerDBClass(Page.class); // ObjectifyService.register(Page.class);
 	}

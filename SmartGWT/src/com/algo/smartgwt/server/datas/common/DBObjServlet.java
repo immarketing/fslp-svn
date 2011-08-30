@@ -13,6 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 public class DBObjServlet extends HttpServlet {
 	private String parentObjParamName = "";
 	private boolean hasParentObj = false;
+	
+	protected void initialize(Class<?> objClass) {
+		initialize(objClass, false, null, null);
+	}
+	
+	protected void initialize(Class<?> objClass, Class<?> parentObjClass, String parentObjParamName) {
+		initialize(objClass, true, parentObjClass, parentObjParamName);
+	}
+	
+	protected void initialize(Class<?> objClass, boolean hasParentObj, Class<?> parentObjClass, String parentObjParamName) {
+		setHasParentObj(hasParentObj);
+		setObjClass(objClass);
+		setParentObjClass(parentObjClass);
+		setParentObjParamName(parentObjParamName);
+	}
 
 	public boolean isHasParentObj() {
 		return hasParentObj;
@@ -38,6 +53,15 @@ public class DBObjServlet extends HttpServlet {
 
 	public void setObjClass(Class<?> objClass) {
 		this.objClass = objClass;
+	}
+
+	private Class<?> parentObjClass = null;
+	public Class<?> getParentObjClass() {
+		return parentObjClass;
+	}
+
+	public void setParentObjClass(Class<?> parentObjClass) {
+		this.parentObjClass = parentObjClass;
 	}
 
 	/**
