@@ -6,17 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 
 class Reply {
 	public int status = 0;
-	@SuppressWarnings({ })
+	@SuppressWarnings({})
 	public int startRow = 0;
-	@SuppressWarnings({ })
+	@SuppressWarnings({})
 	public int endRow = 1;
 	public int totalRows = 1;
 	public Object data[] = { null };
@@ -48,13 +50,12 @@ class DataRequestT<T> {
 	public String componentId;
 	public String oldValues;
 	public T data;
-	
+
 	@SuppressWarnings("unchecked")
-	public DataRequestT(Class<? extends Object> aClass){
+	public DataRequestT(Class<? extends Object> aClass) {
 		/*
-		T.class.getClass().newInstance();
-		data = new T();
-		*/
+		 * T.class.getClass().newInstance(); data = new T();
+		 */
 		try {
 			data = (T) aClass.newInstance();
 		} catch (InstantiationException e) {
@@ -77,9 +78,10 @@ class DataRequestCourse {
 	String componentId;
 	Course oldValues;
 	Course data;
-	public DataRequestCourse(){
-		oldValues=null;
-		data=null;
+
+	public DataRequestCourse() {
+		oldValues = null;
+		data = null;
 	}
 }
 
@@ -89,7 +91,8 @@ class DataRequestCourses {
 	String componentId;
 	String oldValues;
 	Course data[];
-	public DataRequestCourses(){
+
+	public DataRequestCourses() {
 		data = new Course[0];
 	}
 }
@@ -100,9 +103,10 @@ class DataRequestPage {
 	String componentId;
 	Page oldValues;
 	Page data;
-	public DataRequestPage(){
-		oldValues=null;
-		data=null;
+
+	public DataRequestPage() {
+		oldValues = null;
+		data = null;
 	}
 }
 
@@ -112,7 +116,8 @@ class DataRequestPages {
 	String componentId;
 	String oldValues;
 	Page data[];
-	public DataRequestPages(){
+
+	public DataRequestPages() {
 		data = new Page[0];
 	}
 }
@@ -123,9 +128,10 @@ class DataRequestChapter {
 	String componentId;
 	Chapter oldValues;
 	Chapter data;
-	public DataRequestChapter(){
-		oldValues=null;
-		data=null;
+
+	public DataRequestChapter() {
+		oldValues = null;
+		data = null;
 	}
 }
 
@@ -135,11 +141,11 @@ class DataRequestCharters {
 	String componentId;
 	String oldValues;
 	Chapter data[];
-	public DataRequestCharters(){
+
+	public DataRequestCharters() {
 		data = new Chapter[0];
 	}
 }
-
 
 /*
  * { "dataSource":"isc_ARestDataSource_0", "operationType":"add",
@@ -157,137 +163,171 @@ public class DBF {
 	}
 
 	/*
-	@Deprecated
-	static class IdInstanceCreator<T> implements InstanceCreator<DataRequestT> {
-		public DataRequestT createInstance(Type type) {
-			return new DataRequestT<T>();
-		}
-	}
-	*/
+	 * @Deprecated static class IdInstanceCreator<T> implements
+	 * InstanceCreator<DataRequestT> { public DataRequestT createInstance(Type
+	 * type) { return new DataRequestT<T>(); } }
+	 */
 
 	public static Course[] deJSONOldNewCourse(String js) {
 		Course res[] = new Course[2];
 		Gson gson = new Gson();
-		DataRequestCourse c = gson.fromJson(js,DataRequestCourse.class);
+		DataRequestCourse c = gson.fromJson(js, DataRequestCourse.class);
 		if (c.data != null) {
 			res[0] = c.oldValues;
 			res[1] = c.data;
 		}
-		return res;		
+		return res;
 	}
-	
+
 	public static Chapter[] deJSONOldNewChapter(String js) {
 		Chapter res[] = new Chapter[2];
 		Gson gson = new Gson();
-		DataRequestChapter c = gson.fromJson(js,DataRequestChapter.class);
+		DataRequestChapter c = gson.fromJson(js, DataRequestChapter.class);
 		if (c.data != null) {
 			res[0] = c.oldValues;
 			res[1] = c.data;
 		}
-		return res;		
+		return res;
 	}
-	
+
 	public static Page[] deJSONOldNewPage(String js) {
 		Page res[] = new Page[2];
 		Gson gson = new Gson();
-		DataRequestPage c = gson.fromJson(js,DataRequestPage.class);
+		DataRequestPage c = gson.fromJson(js, DataRequestPage.class);
 		if (c.data != null) {
 			res[0] = c.oldValues;
 			res[1] = c.data;
 		}
-		return res;		
+		return res;
 	}
 
 	public static List<Course> deJSONCourse(String js) {
 		List<Course> res = new ArrayList<Course>();
 		Gson gson = new Gson();
-		DataRequestCourse c = gson.fromJson(js,DataRequestCourse.class);
+		DataRequestCourse c = gson.fromJson(js, DataRequestCourse.class);
 		if (c.data != null) {
 			res.add(c.data);
 		}
-		return res;		
+		return res;
 	}
-	
+
 	public static List<Chapter> deJSONChapter(String js) {
 		List<Chapter> res = new ArrayList<Chapter>();
 		Gson gson = new Gson();
-		DataRequestChapter c = gson.fromJson(js,DataRequestChapter.class);
+		DataRequestChapter c = gson.fromJson(js, DataRequestChapter.class);
 		if (c.data != null) {
 			res.add(c.data);
 		}
-		return res;		
+		return res;
 	}
-	
+
 	public static List<Page> deJSONPage(String js) {
 		List<Page> res = new ArrayList<Page>();
 		Gson gson = new Gson();
-		DataRequestPage c = gson.fromJson(js,DataRequestPage.class);
+		DataRequestPage c = gson.fromJson(js, DataRequestPage.class);
 		if (c.data != null) {
 			res.add(c.data);
 		}
-		return res;		
+		return res;
 	}
-	
-	private static <T> T doTestDeJSON_(String js , T tObject){
+
+	private static <T> T doTestDeJSON_(String js, T tObject) {
 		Gson gson = new Gson();
-		//gson = new GsonBuilder().registerTypeAdapter(DataRequestT.class, new IdInstanceCreator<T>()).create();
+		// gson = new GsonBuilder().registerTypeAdapter(DataRequestT.class, new
+		// IdInstanceCreator<T>()).create();
 		// int DataRequestT;
 		Type typeOfT = new TypeToken<T>() {
 		}.getType();
 		T o = gson.fromJson(js, typeOfT);
-		//o.getClass().getName()
+		// o.getClass().getName()
 		if (o != null) {
-			//T ttt = (T)o.getData();// (T)o.data;
-			return o ; //ttt;// o.data;
+			// T ttt = (T)o.getData();// (T)o.data;
+			return o; // ttt;// o.data;
 		}
 
 		return null;
-		
+
 	}
 
-
-	@Deprecated	
-	public static <T> T testDeJSON_ (String js , T tObject) {
+	@Deprecated
+	public static <T> T testDeJSON_(String js, T tObject) {
 		/*
-class DataRequestT<T> {
-	String dataSource;
-	String operationType;
-	String componentId;
-	String oldValues;
-	T data;
-
-	T getData() {
-		return data;
-	}
-}
+		 * class DataRequestT<T> { String dataSource; String operationType;
+		 * String componentId; String oldValues; T data;
 		 * 
+		 * T getData() { return data; } }
 		 */
-		
+
 		JsonParser parser = new JsonParser();
-	    if (parser.parse(js).isJsonObject()){
-	    	JsonObject array = parser.parse(js).getAsJsonObject();
-	    	
-	    	DataRequestT<T> ttt = new DataRequestT<T>(tObject.getClass());
-	    	
-	    	if (array.has("dataSource")) {
-	    		ttt.dataSource = array.get("dataSource").getAsString(); 
-	    	}
-		    
-	    	if (array.has("operationType")) {
-	    		ttt.operationType = array.get("operationType").getAsString(); 
-	    	}
+		if (parser.parse(js).isJsonObject()) {
+			JsonObject array = parser.parse(js).getAsJsonObject();
 
-	    	if (array.has("componentId")) {
-	    		ttt.componentId = array.get("componentId").getAsString(); 
-	    	}
+			DataRequestT<T> ttt = new DataRequestT<T>(tObject.getClass());
 
-	    	if (array.has("data")) {
-	    		//ttt.data = array.get("data").; 
-	    		//ttt.componentId = array.get("componentId").getAsString();
-	    		Field f [] = ttt.data.getClass().getFields();
-	    		for (Field af: f){
-	    			try {
-						af.set(ttt.data, array.get("data").getAsJsonObject().get(af.getName()).getAsJsonPrimitive());
+			Field fos[] = ttt.getClass().getDeclaredFields();
+
+			for (Field af : fos) {
+				String nm = af.getName();
+
+				JsonElement je = null;
+
+				if (array.has(nm)) {
+					je = array.get(nm);
+				}
+
+				if (je == null) {
+					continue;
+				}
+
+				if (je.isJsonNull()) {
+					continue;
+				}
+
+				if (je.isJsonPrimitive()) {
+					JsonPrimitive jp = je.getAsJsonPrimitive();
+					try {
+						if (jp.isString()) {
+							af.set(ttt, jp.getAsString());
+						} else if (jp.isNumber()){
+							af.set(ttt, jp.getAsNumber());							
+						}
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					}
+
+				}
+
+			}
+
+			/*
+			 * for (JsonObject jso : array.entrySet().toArray(new
+			 * JsonObject[0])){
+			 * 
+			 * }
+			 */
+
+			if (array.has("dataSource")) {
+				ttt.dataSource = array.get("dataSource").getAsString();
+			}
+
+			if (array.has("operationType")) {
+				ttt.operationType = array.get("operationType").getAsString();
+			}
+
+			if (array.has("componentId")) {
+				ttt.componentId = array.get("componentId").getAsString();
+			}
+
+			if (array.has("data")) {
+				// ttt.data = array.get("data").;
+				// ttt.componentId = array.get("componentId").getAsString();
+				Field f[] = ttt.data.getClass().getFields();
+				for (Field af : f) {
+					try {
+						af.set(ttt.data, array.get("data").getAsJsonObject()
+								.get(af.getName()).getAsJsonPrimitive());
 					} catch (IllegalArgumentException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -295,18 +335,18 @@ class DataRequestT<T> {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-	    		}
-	    		//ttt.data = new T();
-	    	}
+				}
+				// ttt.data = new T();
+			}
 
-	    	if (array.equals(array)) {
-		    	
-		    }
-		    //logging.
-	    }
-		
-	    //getAsJsonArray();
-		
+			if (array.equals(array)) {
+
+			}
+			// logging.
+		}
+
+		// getAsJsonArray();
+
 		DataRequestT<T> tn = new DataRequestT<T>(tObject.getClass());
 		tn.data = tObject;
 		tn = doTestDeJSON_(js, tn);
@@ -336,35 +376,40 @@ class DataRequestT<T> {
 		ar.response.data[0] = reply;
 		return ar;
 	}
-	
-	public static <T> List<T> listDBObj(Class<T> aClass){
+
+	public static <T> List<T> listDBObj(Class<T> aClass) {
 		Objectify ofy = DBF.getObjectify();
 		return ofy.query(aClass).list();
 	}
 
-	public static <P,C> List<C> listDBObjChilds(Class<P> aParent, Long parID, Class<C> aChild){
+	public static <P, C> List<C> listDBObjChilds(Class<P> aParent, Long parID,
+			Class<C> aChild) {
 		Objectify ofy = DBF.getObjectify();
-		
+
 		String fkFieldName = DBFMetaData.get().getFKFieldName(aParent, aChild);
-		
-		return ofy.query(aChild).filter(fkFieldName, new Key<P>(aParent,parID)).list();
-		
-		//DBFMetaData.get().get
-		//return ofy.query(aChild).filter("courseKey", new Key<Course>(Course.class, getId())).list();
-		
-		//return ofy.query(Chapter.class).filter("courseKey", new Key<Course>(Course.class, getId())).list();
-		//return ofy.query(aClass).list();
+
+		return ofy.query(aChild)
+				.filter(fkFieldName, new Key<P>(aParent, parID)).list();
+
+		// DBFMetaData.get().get
+		// return ofy.query(aChild).filter("courseKey", new
+		// Key<Course>(Course.class, getId())).list();
+
+		// return ofy.query(Chapter.class).filter("courseKey", new
+		// Key<Course>(Course.class, getId())).list();
+		// return ofy.query(aClass).list();
 	}
 
 	static {
-		//ObjectifyService.register(Country.class);
-		//ObjectifyService.register(Car.class);
-		
+		// ObjectifyService.register(Country.class);
+		// ObjectifyService.register(Car.class);
+
 		DBFMetaData.get().registerDBClass(Course.class); // ObjectifyService.register(Course.class);
-		
+
 		DBFMetaData.get().registerDBClass(Chapter.class); // ObjectifyService.register(Chapter.class);
-		DBFMetaData.get().registerParentChildFK(Course.class, Chapter.class, "courseKey");
-		
+		DBFMetaData.get().registerParentChildFK(Course.class, Chapter.class,
+				"courseKey");
+
 		DBFMetaData.get().registerDBClass(Page.class); // ObjectifyService.register(Page.class);
 	}
 
