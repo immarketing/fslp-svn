@@ -9,9 +9,9 @@ import com.googlecode.objectify.Objectify;
 
 public class Course {
 	@Id
-	Long id;
+	public Long id;
 	
-	String courseName ;
+	public String courseName ;
 	
 	public Long getId() {
 		return id;

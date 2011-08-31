@@ -277,6 +277,7 @@ public class DBF {
 		return result;
 	}
 
+	@Deprecated
 	private static <T, S> T testDeJSON_JsonObject(JsonElement jsonElement,
 			T aObject, S aSubObject) {
 		T result = aObject;
@@ -505,6 +506,43 @@ public class DBF {
 		return ar;
 	}
 
+	public static <T> T storeDBObj(T objToStore) {
+		Objectify ofy = DBF.getObjectify();
+		ofy.put(objToStore);
+		return objToStore;
+	}
+	
+	public static <T> T updateDBObj(Class<T> aClass,T objToStoreOld, T objToStoreNew) {
+		try {
+			Objectify 	ofy = DBF.getObjectify();
+			
+			if (objToStoreOld == null) {
+				return objToStoreNew;
+			}
+			
+			Field		idField = DBFMetaData.get().getPKField(objToStoreOld.getClass());
+			Long		objID = idField.getLong(objToStoreOld);
+			
+			Key<T>		keyT 	= new Key<T>(aClass, objID.longValue());
+			
+			T oldDBObj = ofy.get(keyT);
+			
+			
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		//ofy.get
+		//T 
+		return null;
+		
+	}
+	
+	
 	public static <T> List<T> listDBObj(Class<T> aClass) {
 		Objectify ofy = DBF.getObjectify();
 		return ofy.query(aClass).list();
@@ -518,14 +556,6 @@ public class DBF {
 
 		return ofy.query(aChild)
 				.filter(fkFieldName, new Key<P>(aParent, parID)).list();
-
-		// DBFMetaData.get().get
-		// return ofy.query(aChild).filter("courseKey", new
-		// Key<Course>(Course.class, getId())).list();
-
-		// return ofy.query(Chapter.class).filter("courseKey", new
-		// Key<Course>(Course.class, getId())).list();
-		// return ofy.query(aClass).list();
 	}
 
 	static {

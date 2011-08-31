@@ -1,8 +1,10 @@
 package com.algo.smartgwt.server.db;
 
+import java.lang.reflect.Field;
 import java.util.Hashtable;
 import java.util.Map;
 
+import com.algo.smartgwt.server.Utils;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
@@ -85,9 +87,54 @@ public class DBFMetaData {
 	public Objectify getObjectify() {
 		return ObjectifyService.begin();
 	}
+	
+	private static class DBClass  {
+		Class<?> 	aClass;
+		Field 		fields[];
+		
+		Field 		idField;
+		
+		DBClass (Class<?> 	aClass){
+			this.aClass = aClass;
+			fields = Utils.getAllFields(this.aClass);
+			
+			for (Field af : fields) {
+				if (af.getAnnotation(javax.persistence.Id.class) != null){
+					idField = af;
+					break;					
+				}
+			}
+		}
+	}
+	
+	private Map<String, DBClass > registeredDBObjects = new Hashtable<String, DBClass>();
+	
 
-	public void registerDBClass(Class<?> aClass) {
+	public <T> Field[] getFields(Class<T> aClass) {
+		Field 		result[]	= null;
+		DBClass 	dbc			= registeredDBObjects.get(aClass.getName());
+		
+		if (dbc != null) {
+			result = dbc.fields;
+		}
+		
+		return result;
+		
+	}
+	public <T> Field getPKField(Class<T> aClass) {
+		Field 		result	= null;
+		DBClass 	dbc		= registeredDBObjects.get(aClass.getName());
+		
+		if (dbc != null) {
+			result = dbc.idField;
+		}
+		
+		return result;
+	}
+	public <T> void registerDBClass(Class<T> aClass) {
 		ObjectifyService.register(aClass);
+		registeredDBObjects.put(aClass.getName(), new DBClass(aClass));
+		//aClass.getField("").get
 	}
 
 	public void registerFK(Class<?> parentClass, Class<?> childClass,

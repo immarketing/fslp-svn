@@ -10,19 +10,21 @@ import com.algo.smartgwt.server.Utils;
 import com.algo.smartgwt.server.db.DBF;
 import com.google.gson.Gson;
 
-public class DBObjAddServlet extends DBObjServlet {
+public class DBObjUpdateServlet extends DBObjServlet {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -960382914926005772L;
-
+	private static final long serialVersionUID = 3572766564544759312L;
+	
+	
 	protected <T, ST> void readAndSaveObject(HttpServletRequest req,
 			HttpServletResponse resp, String content, Class<T> aClass,
 			Class<ST> aParentClass) {
 		try {
 			T readObject = aClass.newInstance();
-			readObject = Utils.deJsonAddObject(content, readObject);
+			Utils.DataJSON<T> readObjects = Utils.deJsonObject(content, readObject); 
+			//readObject = Utils.deJsonAddObject(content, readObject);
 			readObject = DBF.storeDBObj(readObject);
 
 			Gson gson = new Gson();
@@ -43,7 +45,7 @@ public class DBObjAddServlet extends DBObjServlet {
 		}
 
 	}
-
+	
 	protected void doHandleRequest(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
 		super.doHandleRequest(req, resp);
@@ -53,4 +55,5 @@ public class DBObjAddServlet extends DBObjServlet {
 		readAndSaveObject(req, resp, content, getObjClass(),
 				getParentObjClass());
 	}
+
 }
