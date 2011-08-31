@@ -49,7 +49,8 @@
 
   <servlet>
     <servlet-name>courseAdd</servlet-name>
-    <servlet-class>com.algo.smartgwt.server.datas.course.CourseAdd</servlet-class>
+    <!-- <servlet-class>com.algo.smartgwt.server.datas.course.CourseAdd</servlet-class> -->
+	<servlet-class>com.algo.smartgwt.server.datas.course.CourseAddDBObj</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>courseAdd</servlet-name>
