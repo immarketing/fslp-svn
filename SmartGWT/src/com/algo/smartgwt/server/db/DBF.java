@@ -277,78 +277,79 @@ public class DBF {
 		return result;
 	}
 
-	private static <T> T testDeJSON_JsonObject(JsonElement jsonElement,
-			Class<T> aClass) {
-		T result = null;
+	private static <T, S> T testDeJSON_JsonObject(JsonElement jsonElement,
+			T aObject, S aSubObject) {
+		T result = aObject;
 
 		JsonObject array = null; // jsonElement.getAsJsonObject();
 
 		if (jsonElement.isJsonNull()) {
-			return result;
+			return null;
 		}
 
 		if (jsonElement.isJsonObject()) {
 			array = jsonElement.getAsJsonObject();
 		}
 
+		Class<?> aClass = aObject.getClass();
+
 		Field flds[] = getFields(aClass);
 
-		try {
-			result = aClass.newInstance();
+		Field fos[] = flds;
+		for (Field af : fos) {
+			String nm = af.getName();
 
-			Field fos[] = flds;
-			for (Field af : fos) {
-				String nm = af.getName();
+			JsonElement je = null;
 
-				JsonElement je = null;
-
-				if (array.has(nm)) {
-					je = array.get(nm);
-				}
-
-				if (je == null) {
-					continue;
-				}
-
-				if (je.isJsonNull()) {
-					continue;
-				}
-
-				if (je.isJsonPrimitive()) {
-					JsonPrimitive jp = je.getAsJsonPrimitive();
-					try {
-						if (jp.isString()) {
-							af.set(result, jp.getAsString());
-						} else if (jp.isNumber()) {
-							af.set(result, jp.getAsNumber());
-						}
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					}
-				} else if (je.isJsonObject()) {
-					try {
-						T obj = (T) aClass.newInstance();
-
-						JsonObject jo = je.getAsJsonObject();
-
-						// jo.
-					} catch (InstantiationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
+			if (array.has(nm)) {
+				je = array.get(nm);
 			}
 
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			if (je == null) {
+				continue;
+			}
+
+			if (je.isJsonNull()) {
+				continue;
+			}
+
+			if (je.isJsonPrimitive()) {
+				JsonPrimitive jp = je.getAsJsonPrimitive();
+				try {
+					if (jp.isString()) {
+						af.set(result, jp.getAsString());
+					} else if (jp.isNumber()) {
+						af.set(result, jp.getAsNumber());
+					}
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			} else if (je.isJsonObject()) {
+				try {
+					//T obj = (T) aClass.newInstance();
+					
+					if (aSubObject == null) {
+						return null;
+					}
+					@SuppressWarnings("unchecked")
+					S ss = ((Class<S>)aSubObject.getClass()).newInstance();
+					
+					ss = testDeJSON_JsonObject(je, ss, null);
+					
+					af.set(result, ss);
+
+					//JsonObject jo = je.getAsJsonObject();
+
+					// jo.
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+			//return null;
 		}
 
 		return result;
@@ -364,19 +365,21 @@ public class DBF {
 		 */
 
 		JsonParser parser = new JsonParser();
+		DataRequestT<T> ttt = new DataRequestT<T>(tObject.getClass());
+		
 		if (parser.parse(js).isJsonObject()) {
 			JsonObject array = parser.parse(js).getAsJsonObject();
 
-			DataRequestT<T> ttt = new DataRequestT<T>(tObject.getClass());
 
-			Field fos[] = ttt.getClass().getDeclaredFields();
+			//Field fos[] = ttt.getClass().getDeclaredFields();
 
-			testDeJSON_JsonObject(array, DataRequestT.class);
+			testDeJSON_JsonObject(array, ttt, tObject);
 
 			// List<T> lt = new ArrayList<T>();
 			// tObject.getClass().ne
 			// T tar[] = new T[10];
 
+			/*
 			for (Field af : fos) {
 				String nm = af.getName();
 
@@ -422,6 +425,7 @@ public class DBF {
 
 				}
 			}
+			*/
 
 			/*
 			 * for (JsonObject jso : array.entrySet().toArray(new
@@ -429,6 +433,7 @@ public class DBF {
 			 * 
 			 * }
 			 */
+			/*
 
 			if (array.has("dataSource")) {
 				ttt.dataSource = array.get("dataSource").getAsString();
@@ -464,14 +469,15 @@ public class DBF {
 			if (array.equals(array)) {
 
 			}
+			*/
 			// logging.
 		}
 
 		// getAsJsonArray();
 
-		DataRequestT<T> tn = new DataRequestT<T>(tObject.getClass());
-		tn.data = tObject;
-		tn = doTestDeJSON_(js, tn);
+		DataRequestT<T> tn = ttt;;//new DataRequestT<T>(tObject.getClass());
+		//tn.data = tObject;
+		//tn = doTestDeJSON_(js, tn);
 		return tn.data;
 	}
 
