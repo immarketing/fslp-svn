@@ -2,7 +2,6 @@ package com.algo.smartgwt.server.datas.course;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -70,9 +69,5 @@ public class CourseUpdate extends HttpServlet {
 		Gson gson = new Gson();
 		
 		resp.getWriter().println(gson.toJson( rpl ));
-		
-		
 	}
-	
-	
 }

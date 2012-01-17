@@ -2,8 +2,6 @@ package com.algo.smartgwt.server.datas.course;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,13 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.algo.smartgwt.server.datas.course.Add.AReply;
-import com.algo.smartgwt.server.db.Car;
 import com.algo.smartgwt.server.db.Country;
 import com.algo.smartgwt.server.db.DBF;
 import com.google.gson.Gson;
 import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyService;
 
 @Deprecated
 public class New extends HttpServlet {

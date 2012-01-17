@@ -14,9 +14,7 @@ import com.algo.smartgwt.server.db.Car;
 import com.algo.smartgwt.server.db.Country;
 import com.algo.smartgwt.server.db.DBF;
 import com.google.gson.Gson;
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Query;
 
 @Deprecated

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.algo.smartgwt.server.db.Country;
 import com.algo.smartgwt.server.db.Course;
 import com.algo.smartgwt.server.db.DBF;
 import com.google.gson.Gson;
@@ -75,7 +74,7 @@ public class CourseAdd extends HttpServlet {
 		
 		List<Course> cntr0 = DBF.deJSONCourse(s);
 		
-		Course c0_ = DBF.testDeJSON_(s, new Course());
+		//Course c0_ = DBF.testDeJSON_(s, new Course());
 
 		resp.setContentType("text/plain");
 		
